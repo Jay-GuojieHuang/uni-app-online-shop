@@ -1,7 +1,7 @@
 <template>
 	<view class="commodity" :style="`flex-wrap: ${wrap}`">
 		
-		<view @tap="goDetail" v-for="item in commodityList" :key="item.id" class="commodity-item" :style="`width: ${itemWidth}`"><!-- 单个商品组件 -->
+		<view @tap="goDetail(item.id)" v-for="item in commodityList" :key="item.id" class="commodity-item" :style="`width: ${itemWidth}`"><!-- 单个商品组件 -->
 			<image class="commodity-img" :style="`height:${itemWidth}`" :src="item.imgUrl" mode=""></image>
 			<view class="commodity-content">
 				<!-- 放置价格折扣 -->
@@ -34,9 +34,9 @@
 			}
 		},
 		methods:{
-			goDetail(){
+			goDetail(id){
 				uni.navigateTo({
-					url:'../../pages/detail/detail'
+					url:`../../pages/detail/detail?id=${id}`
 				})
 			}
 		}

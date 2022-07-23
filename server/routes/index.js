@@ -12,6 +12,22 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+
+router.get('/api/goods/id',function(req, res, next){
+	let id = req.query.id;
+	connection.query("select * from goods_search where id ="+id+"", function (error, results, fields) {
+	  if (error) throw error;
+	  // console.log('The solution is: ', results);
+	  
+	  res.send({
+		  code:"0",
+		  data:results
+	  })
+	  
+	  
+	}); 
+})
+
 router.get('/api/goods/list', function(req, res, next) {
    res.json({
 	   code:0,

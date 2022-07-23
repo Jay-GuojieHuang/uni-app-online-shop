@@ -1,109 +1,179 @@
 <template>
 	<view class="detail">
 		<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
-			<swiper-item v-for="(item, index) in swiperList" :key="index">
-				<view class="swiper-item"><image class="swiper-img" :src="item.imgUrl" mode=""></image></view>
+			<swiper-item>
+				<view class="swiper-item"><image class="swiper-img" :src="goodsInfo.imgUrl" mode=""></image></view>
 			</swiper-item>
 		</swiper>
 
 		<!-- 价格和名称 -->
 		<view class="detail_goods f-color">
 			<view class="price">
-				<view class="pprice">$399.00</view>
-				<view class="oprice">$599.00</view>
+				<view class="pprice">${{goodsInfo.pprice}}</view>
+				<view class="oprice">${{goodsInfo.oprice}}</view>
 			</view>
-			<view class="goods_name">大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008</view>
+			<view class="goods_name">{{goodsInfo.name}}</view>
 		</view>
-		
+
 		<!-- 商品详情图 -->
 		<view class="">
-			<view class="">
-				<image class="detail-img" src="../../static/img/detail1.jpg" mode=""></image>
-			</view>
-			<view class="">
-				<image class="detail-img" src="../../static/img/detail2.jpg" mode=""></image>
-			</view>
-			<view class="">
-				<image class="detail-img" src="../../static/img/detail3.jpg" mode=""></image>
-			</view>
-			<view class="">
-				<image class="detail-img" src="../../static/img/detail4.jpg" mode=""></image>
-			</view>
-			<view class="">
-				<image class="detail-img" src="../../static/img/detail5.jpg" mode=""></image>
-			</view>
+			<view class=""><image class="detail-img" src="../../static/img/detail1.jpg" mode=""></image></view>
+			<view class=""><image class="detail-img" src="../../static/img/detail2.jpg" mode=""></image></view>
+			<view class=""><image class="detail-img" src="../../static/img/detail3.jpg" mode=""></image></view>
+			<view class=""><image class="detail-img" src="../../static/img/detail4.jpg" mode=""></image></view>
+			<view class=""><image class="detail-img" src="../../static/img/detail5.jpg" mode=""></image></view>
 		</view>
-		
+
 		<!-- 商品列表 -->
 		<Card cardTitle="看了又看"></Card>
-		<CommodityList :dataList = "dataList"></CommodityList>
-		
+		<CommodityList :dataList="dataList"></CommodityList>
+
 		<!-- 底部 -->
 		<view class="detail-foot">
-			<view class="iconfont icon-xiaoxi">
-				
-			</view>
-			<view class="iconfont icon-gouwuche">
-				
-			</view>
-			<view class="add-cart">
-				加入购物车
-			</view>
-			<view class="buy-now bg-color">
-				立即购买
+			<view class="iconfont icon-xiaoxi"></view>
+			<view class="iconfont icon-gouwuche"></view>
+			<view class="add-cart" @tap="addToCart">加入购物车</view>
+			<view class="buy-now bg-color" @tap="buyNow">立即购买</view>
+		</view>
+
+		<!-- 底部弹出层 -->
+		<view class="pop" v-show="isShow" @touchmove.stop.prevent="">
+			<view class="pop-mask" @tap="hidePop"></view>
+			<view class="pop-box" :animation="animationData">
+				<view class=""><image class="pop-img" src="../../static/img/commodity1.jpg" mode=""></image></view>
+				<view class="">
+					<view class="pop-number">
+						<view class="">购买数量</view>
+						<UniNumberBox :min="1"></UniNumberBox>
+					</view>
+
+					<view class="pop-sub">确定</view>
+				</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import Card from '@/components/common/Card.vue'
-	import CommodityList from '@/components/common/CommodityList.vue'
+import $http from '@/common/api/request.js';
+import UniNumberBox from '@/components/uni/uni-number-box/uni-number-box.vue';
+import Card from '@/components/common/Card.vue';
+import CommodityList from '@/components/common/CommodityList.vue';
 export default {
-	components:{
-	   Card,
-	   CommodityList
+	components: {
+		Card,
+		CommodityList,
+		UniNumberBox
+	},
+	onBackPress() {
+		//返回键回调
+		console.log(123);
+	},
+	onLoad(e) {
+		// console.log(e);
+		this.getData(e.id);
 	},
 	data() {
 		return {
 			swiperList: [{ imgUrl: '../../static/img/details1.jpeg' }, { imgUrl: '../../static/img/details2.jpeg' }, { imgUrl: '../../static/img/details3.jpeg' }],
-			dataList:[{
-							id: 1,
-							imgUrl: "../../static/img/commodity1.jpg",
-							name: "大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008",
-							pprice: "299",
-							oprice: "659",
-							discount: "5.2"
-						},
-						{
-							id: 2,
-							imgUrl: "../../static/img/commodity2.jpg",
-							name: "大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008",
-							pprice: "299",
-							oprice: "659",
-							discount: "5.2"
-						},
-						{
-							id: 3,
-							imgUrl: "../../static/img/commodity3.jpg",
-							name: "大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008",
-							pprice: "299",
-							oprice: "659",
-							discount: "5.2"
-						},
-						{
-							id: 4,
-							imgUrl: "../../static/img/commodity4.jpg",
-							name: "大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008",
-							pprice: "299",
-							oprice: "659",
-							discount: "5.2"
-						}
-					]
-		
+			goodsInfo:{},
+			dataList: [
+				{
+					id: 1,
+					imgUrl: '../../static/img/commodity1.jpg',
+					name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008',
+					pprice: '299',
+					oprice: '659',
+					discount: '5.2'
+				},
+				{
+					id: 2,
+					imgUrl: '../../static/img/commodity2.jpg',
+					name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008',
+					pprice: '299',
+					oprice: '659',
+					discount: '5.2'
+				},
+				{
+					id: 3,
+					imgUrl: '../../static/img/commodity3.jpg',
+					name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008',
+					pprice: '299',
+					oprice: '659',
+					discount: '5.2'
+				},
+				{
+					id: 4,
+					imgUrl: '../../static/img/commodity4.jpg',
+					name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008',
+					pprice: '299',
+					oprice: '659',
+					discount: '5.2'
+				}
+			],
+			isShow: false,
+			animationData: {}
 		};
 	},
-	methods: {}
+	methods: {
+		getData(id) {
+			$http
+				.request({
+					url: `/goods/id`,
+					data:{
+						id:id
+					}
+				}).then(res => {
+					// console.log(res);
+					this.goodsInfo = res[0];
+					
+				}).catch(() => {
+					// console.log('请求失败！');
+					uni.showToast({
+						title: '请求失败',
+						icon: 'none'
+					});
+				});
+		},
+		showPop() {
+			var animation = uni.createAnimation({
+				// 动画时间
+				duration: 1000,
+				// 动画速度
+				timingFunction: 'linear'
+			});
+			animation.translateY(1000).step();
+			this.animationData = animation.export();
+
+			setTimeout(() => {
+				animation.translateY(0).step();
+				this.animationData = animation.export();
+				this.isShow = true;
+			}, 200);
+		},
+		hidePop() {
+			var animation = uni.createAnimation({
+				// 动画时间
+				duration: 1000,
+				// 动画速度
+				timingFunction: 'linear'
+			});
+			animation.translateY(1000).step();
+			this.animationData = animation.export();
+
+			setTimeout(() => {
+				animation.translateY(0).step();
+				this.animationData = animation.export();
+				this.isShow = false;
+			}, 200);
+		},
+		addToCart() {
+			this.showPop();
+		},
+		buyNow() {
+			this.isShow = true;
+		}
+	}
 };
 </script>
 
@@ -130,7 +200,6 @@ swiper {
 	border-radius: 18rpx;
 	margin: 50rpx 20rpx;
 	box-shadow: 1px 1px 14px 4px rgb(0 0 0 /10%);
-	
 }
 .price {
 	display: flex;
@@ -147,7 +216,6 @@ swiper {
 	text-decoration: line-through;
 	margin-left: 10rpx;
 	color: grey;
-	
 }
 
 .goods_name {
@@ -177,13 +245,12 @@ swiper {
 	height: 50rpx;
 	border-radius: 100%;
 	background-color: #000000;
-	color:#fff;
+	color: #fff;
 	text-align: center;
 	line-height: 50rpx;
 	margin: 0 20rpx;
 	font-size: 80%;
 }
-
 
 .add-cart {
 	margin: 0 40rpx;
@@ -191,7 +258,7 @@ swiper {
 	background-color: #000000;
 	color: #fff;
 	border-radius: 40rpx;
-		height: 40rpx;
+	height: 40rpx;
 }
 
 .buy-now {
@@ -200,6 +267,55 @@ swiper {
 	/* background-color: #000000; */
 	color: #fff;
 	border-radius: 40rpx;
-		height: 40rpx;
+	height: 40rpx;
+}
+
+.pop {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+
+.pop-mask {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.pop-box {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 50%;
+	background-color: #fff;
+}
+
+.pop-img {
+	height: 260rpx;
+	width: 260rpx;
+}
+
+.pop-sub {
+	line-height: 80rpx;
+	background-color: #49bdfb;
+	color: #fff;
+	height: 80rpx;
+	width: 600prx;
+	border-radius: 2px;
+	text-align: center;
+	margin: 10rpx 20rpx;
+}
+
+.pop-number {
+	padding: 50rpx;
+	display: flex;
+	justify-content: space-between;
 }
 </style>
