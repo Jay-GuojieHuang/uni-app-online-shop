@@ -1,0 +1,8 @@
+
+.card.data-v-3879f0e9 {
+	padding: 20rpx 0;
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+}
+

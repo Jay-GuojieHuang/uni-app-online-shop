@@ -1,0 +1,24 @@
+
+.search-item.data-v-4cedc0c6 {
+	padding: 20rpx;
+}
+.search-title.data-v-4cedc0c6 {
+	display: flex;
+	justify-content: space-between;
+	font-weight: bold;
+}
+.searched-word.data-v-4cedc0c6 {
+	padding: 4rpx 24rpx;
+	background-color: #e1e1e1;
+	display: inline-block;
+	margin: 10rpx;
+	border-radius: 20rpx;
+}
+.icon-lajitong.data-v-4cedc0c6 {
+	font-size: 50rpx;
+}
+.none-searched-words.data-v-4cedc0c6 {
+	text-align: center;
+	padding: 20rpx;
+}
+

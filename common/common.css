@@ -1,0 +1,16 @@
+/* 全局css */
+
+/* default color */
+.f-color {
+	color: #636263;
+}
+
+/* selected font color */
+.f-active-color {
+	color: #49BDFB;
+}
+
+/* background color */
+.bg-color {
+	background-color: #42B7FB;
+}
