@@ -16,6 +16,7 @@
 	height: 375rpx;
 }
 .commodity-name.data-v-5ac280a4 {
+	height: 80rpx;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;

@@ -55,7 +55,11 @@
 			"path": "pages/cart/cart",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"app-plus": {
+					"titleNView": false,
+					"scrollIndicator": "none"
+					
+				}
 			}
 
 		}, {

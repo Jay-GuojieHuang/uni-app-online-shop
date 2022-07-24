@@ -169,7 +169,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 53:
+/***/ 55:
 /*!************************************************************************************************************!*\
   !*** /Users/jjjayisme/Documents/HBuilderProjects/demo/main.js?{"page":"components%2Findex%2FindexSwiper"} ***!
   \************************************************************************************************************/
@@ -187,5 +187,5 @@ wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;createPage(_indexSwip
 
 /***/ })
 
-},[[53,"common/runtime","common/vendor"]]]);
+},[[55,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/components/index/indexSwiper.js.map

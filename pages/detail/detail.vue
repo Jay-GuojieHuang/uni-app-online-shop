@@ -9,10 +9,10 @@
 		<!-- 价格和名称 -->
 		<view class="detail_goods f-color">
 			<view class="price">
-				<view class="pprice">${{goodsInfo.pprice}}</view>
-				<view class="oprice">${{goodsInfo.oprice}}</view>
+				<view class="pprice">${{ goodsInfo.pprice }}</view>
+				<view class="oprice">${{ goodsInfo.oprice }}</view>
 			</view>
-			<view class="goods_name">{{goodsInfo.name}}</view>
+			<view class="goods_name">{{ goodsInfo.name }}</view>
 		</view>
 
 		<!-- 商品详情图 -->
@@ -40,7 +40,7 @@
 		<view class="pop" v-show="isShow" @touchmove.stop.prevent="">
 			<view class="pop-mask" @tap="hidePop"></view>
 			<view class="pop-box" :animation="animationData">
-				<view class=""><image class="pop-img" src="../../static/img/commodity1.jpg" mode=""></image></view>
+				<view class=""><image class="pop-img" :src="goodsInfo.imgUrl" mode=""></image></view>
 				<view class="">
 					<view class="pop-number">
 						<view class="">购买数量</view>
@@ -73,10 +73,35 @@ export default {
 		// console.log(e);
 		this.getData(e.id);
 	},
+	onNavigationBarButtonTap(e) {
+		// console.log(e);
+		let oldImgAdd = this.goodsInfo.imgUrl;
+		let  newImgAdd = oldImgAdd.replace('../../','http://192.168.0.73:3000/');
+		console.log(newImgAdd);
+		if (e.type === 'share') {
+			uni.share({
+				"provider":"weixin",
+				"type":0,
+				"scene":"WXSceneSession",
+				"title":this.goodsInfo.name,
+				"href":`http://192.168.0.73:3000/#/pages/detail/detail?id=${this.goodsInfo.id}`,
+				"imageUrl":newImgAdd,
+				success:function(res){
+					uni.showTabBar({
+						title:'分享成功！'
+					})
+				},
+				fail:function(){
+					
+				}
+				
+			});
+		}
+	},
 	data() {
 		return {
 			swiperList: [{ imgUrl: '../../static/img/details1.jpeg' }, { imgUrl: '../../static/img/details2.jpeg' }, { imgUrl: '../../static/img/details3.jpeg' }],
-			goodsInfo:{},
+			goodsInfo: {},
 			dataList: [
 				{
 					id: 1,
@@ -120,14 +145,15 @@ export default {
 			$http
 				.request({
 					url: `/goods/id`,
-					data:{
-						id:id
+					data: {
+						id: id
 					}
-				}).then(res => {
+				})
+				.then(res => {
 					// console.log(res);
 					this.goodsInfo = res[0];
-					
-				}).catch(() => {
+				})
+				.catch(() => {
 					// console.log('请求失败！');
 					uni.showToast({
 						title: '请求失败',

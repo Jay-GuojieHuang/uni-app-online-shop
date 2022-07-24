@@ -1,0 +1,133 @@
+
+.card.data-v-3879f0e9 {
+	padding: 20rpx 0;
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+}
+
+
+swiper.data-v-3e159eb4 {
+	width: 100%;
+	height: 700rpx;
+}
+.swiper-img.data-v-3e159eb4 {
+	width: 100%;
+	height: 700rpx;
+}
+.detail.data-v-3e159eb4 {
+	padding-bottom: 100rpx;
+}
+.detail_goods.data-v-3e159eb4 {
+	text-align: center;
+	font-weight: bold;
+	font-weight: 36rpx;
+	padding: 10rpx 10rpx;
+	border-radius: 18rpx;
+	margin: 50rpx 20rpx;
+	box-shadow: 1px 1px 14px 4px rgb(0 0 0 /10%);
+}
+.price.data-v-3e159eb4 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.pprice.data-v-3e159eb4 {
+	font-weight: bold;
+}
+.oprice.data-v-3e159eb4 {
+	text-decoration: line-through;
+	margin-left: 10rpx;
+	color: grey;
+}
+.goods_name.data-v-3e159eb4 {
+	text-align: left;
+	padding: 10rpx 10rpx;
+}
+.detail-img.data-v-3e159eb4 {
+	height: 600rpx;
+	width: 100%;
+}
+.detail-foot.data-v-3e159eb4 {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100rpx;
+	background-color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.detail-foot .iconfont.data-v-3e159eb4 {
+	width: 50rpx;
+	height: 50rpx;
+	border-radius: 100%;
+	background-color: #000000;
+	color: #fff;
+	text-align: center;
+	line-height: 50rpx;
+	margin: 0 20rpx;
+	font-size: 80%;
+}
+.add-cart.data-v-3e159eb4 {
+	margin: 0 40rpx;
+	padding: 6rpx 30rpx;
+	background-color: #000000;
+	color: #fff;
+	border-radius: 40rpx;
+	height: 40rpx;
+}
+.buy-now.data-v-3e159eb4 {
+	/* margin: 0 40rpx; */
+	padding: 6rpx 30rpx;
+	/* background-color: #000000; */
+	color: #fff;
+	border-radius: 40rpx;
+	height: 40rpx;
+}
+.pop.data-v-3e159eb4 {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+.pop-mask.data-v-3e159eb4 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.pop-box.data-v-3e159eb4 {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 50%;
+	background-color: #fff;
+}
+.pop-img.data-v-3e159eb4 {
+	height: 260rpx;
+	width: 260rpx;
+}
+.pop-sub.data-v-3e159eb4 {
+	line-height: 80rpx;
+	background-color: #49bdfb;
+	color: #fff;
+	height: 80rpx;
+	width: 600prx;
+	border-radius: 2px;
+	text-align: center;
+	margin: 10rpx 20rpx;
+}
+.pop-number.data-v-3e159eb4 {
+	padding: 50rpx;
+	display: flex;
+	justify-content: space-between;
+}
+

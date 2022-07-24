@@ -165,7 +165,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 54:
+/***/ 56:
 /*!******************************************************************************************************!*\
   !*** /Users/jjjayisme/Documents/HBuilderProjects/demo/main.js?{"page":"components%2Fcommon%2FCard"} ***!
   \******************************************************************************************************/
@@ -183,5 +183,5 @@ wx.__webpack_require_UNI_MP_PLUGIN__ = __webpack_require__;createPage(_Card.defa
 
 /***/ })
 
-},[[54,"common/runtime","common/vendor"]]]);
+},[[56,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/components/common/Card.js.map

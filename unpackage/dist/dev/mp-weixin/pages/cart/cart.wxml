@@ -1,1 +1,1 @@
-<view>cart</view>
+<view class="cart"><uni-navi-bar vue-id="1775f8c0-1" title="购物车" right-text="{{isEditOrConfirm?'完成':'编辑'}}" statusBar="true" data-event-opts="{{[['^clickRight',[['e0']]]]}}" bind:clickRight="__e" bind:__l="__l"></uni-navi-bar></view>
