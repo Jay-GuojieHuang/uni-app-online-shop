@@ -207,6 +207,68 @@
             }
             
         }
+        ,{
+            "path" : "pages/user-config/user-config",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设置",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{	"type": "menu",
+								"float": "right",
+								"color": "#5F5F5F",
+								"text": "搜索"
+								// "fontSize": "16px",
+								// "width": "60px" 
+								
+								
+							}
+							]
+					}
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/user-address/user-address",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "地址管理",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#FFFFFF"
+            }
+            
+        }
+        ,{
+            "path" : "pages/add-new-address/add-new-address",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"app-plus": {
+					"scrollIndicator": "none",
+					"titleNView": {
+						"buttons": [
+							{
+								"float": "right",
+								"color": "#5F5F5F",
+								"text": "保存",
+								"fontSize": "16px",
+								"width": "60px" 
+								
+								
+							}
+						]
+						
+					}
+				}
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

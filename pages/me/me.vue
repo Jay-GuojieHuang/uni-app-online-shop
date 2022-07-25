@@ -2,9 +2,9 @@
 	<view class="wrap" :style="`height: ${viewHomeHeight}px;`">
 		<view class="me">
 			<!-- 头部 -->
-			<view class="me-header" :style="`padding-top:${statusBarHeight}px; `">
+			<view class="me-header" :style="`padding-top:${statusBarHeight}px `">
 				<view class="header-main">
-					<view class="header-config"><image class="config-img" src="../../static/img/config.png"></image></view>
+					<view class="header-config" @tap="naviToConfig"><image class="config-img" src="../../static/img/config.png"></image></view>
 					<view class="header-avatar">
 						<image class="avatar-img" src="../../static/img/commodity1.jpg" mode=""></image>
 						<view class="user-name">JJJayisme</view>
@@ -144,7 +144,13 @@ export default {
 			}
 		});
 	},
-	methods: {}
+	methods: {
+		naviToConfig() {
+			uni.navigateTo({
+				url:'/pages/user-config/user-config'
+			})
+		}
+	}
 };
 </script>
 
