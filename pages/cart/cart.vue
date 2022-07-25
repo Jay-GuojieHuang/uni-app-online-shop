@@ -1,89 +1,108 @@
 <template>
 	<view class="cart">
-		<!-- 自定义导航栏 -->
-		<uniNaviBar title="购物车" :right-text="isEditOrConfirm ? '完成' : '编辑'" statusBar="true" @clickRight="isEditOrConfirm = !isEditOrConfirm"></uniNaviBar>
+		<template v-if="cartList.length > 0">
+			<!-- 自定义导航栏 -->
+			<uniNaviBar title="购物车" :right-text="isEditOrConfirm ? '完成' : '编辑'" statusBar="true" @clickRight="isEditOrConfirm = !isEditOrConfirm"></uniNaviBar>
 
-		<!-- 商品内容 -->
-		<view class="cart-list" v-for="item,index in itemList" :key="item.id">
-			<view class="cart-item">
-				<label class="radio">
-					<radio value="" color="#42B7FB" :checked="item.checked"/>
-					<text></text>
-				</label>
-				<image class="item-img" :src="item.imgUrl" mode=""></image>
-				<view class=" item-right f-color">
-					<view class="item-name">{{item.name}}</view>
-					<view class="">颜色：{{item.color}} </view>
-					<view class="item-price-num">
-						<view class="">${{item.price}}</view>
-						<view class="">x{{item.count}}</view>
+			<!-- 商品内容 -->
+			<view class="cart-list">
+				<view class="cart-item" v-for="(item, index) in cartList" :key="item.id">
+					<label class="radio" @tap="CHANGESELECT(item.id)">
+						<radio value="" color="#42B7FB" :checked="item.checked" />
+						<text></text>
+					</label>
+					<image class="item-img" :src="item.imgUrl" mode=""></image>
+					<view class=" item-right f-color">
+						<view class="item-name">{{ item.name }}</view>
+						<view class="">颜色：{{ item.color }}</view>
+						<view class="item-price-num">
+							<view class="">${{ item.price }}</view>
+							<template v-if="!isEditOrConfirm">
+								<view class="">x{{ item.count }}</view>
+							</template>
+							<template v-else>
+								<uniNumberBox @change="changeNum($event, index)" :min="1" :value="item.count"></uniNumberBox>
+							</template>
+						</view>
 					</view>
 				</view>
 			</view>
+		</template>
+		<template v-else>
+			<!-- 自定义导航栏 -->
+			<uniNaviBar title="购物车" statusBar="true" height="120px"></uniNaviBar>
+			<view class="cart-empty f-color">购物车空空如也～</view>
+		</template>
+
+		<!-- 底部 -->
+		<view class="cart-footer f-color">
+			<label class="radio select-all" @tap="CHECKEDALL">
+				<radio value="" color="#42B7FB" :checked="checkedAll" />
+				<text>全选</text>
+			</label>
+
 			
-			<!-- 底部 -->
-			<view class="cart-footer f-color">
-			
-					<label class="radio select-all" >
-						<radio value="" color="#42B7FB" /><text>全选</text>
-					</label>
-			
+			<template v-if="!isEditOrConfirm">
 				<view class="cart-total">
-					<view class="cart-count">合计$0</view>
-					<view class="cart-checkout">结算(0)</view>
+					<view class="cart-count">
+						合计
+						<text class="f-active-color count-text">${{ totalCount.pprice }}</text>
+					</view>
+					<view class="cart-checkout">结算({{ totalCount.num }})</view>
 				</view>
-			</view>
+			</template>
+			<template v-else>
+				<view class="cart-total">
+					<view class="cart-count" style="background-color: #000000;">
+						<text class="count-text " style="color: #fff;">移入收藏夹</text>
+					</view>
+					<view class="cart-checkout" @tap="DELGOODS">删除({{ totalCount.num }})</view>
+				</view>
+			</template>
 		</view>
 	</view>
 </template>
 
 <script>
+import uniNumberBox from '@/components/uni/uni-number-box/uni-number-box.vue';
+import { mapState, mapActions, mapGetters } from 'vuex';
 import uniNaviBar from '@/components/uni/uni-nav-bar/uni-nav-bar.vue';
 export default {
 	components: {
-		uniNaviBar
+		uniNaviBar,
+		uniNumberBox
 	},
 	data() {
 		return {
-			isEditOrConfirm: false,
-			itemList:[
-				{
-					id:	1,
-					name:'大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-					color:'黑色',
-					imgUrl:'../../static/img/Children1.jpg',
-					price:'212',
-					count:'1',
-					checked:false
-				},
-				{
-					id:	2,
-					name:'大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-					color:'黑色',
-					imgUrl:'../../static/img/Children2.jpg',
-					price:'212',
-					count:'1',
-					checked:true
-				},
-				{
-					id:	3,
-					name:'大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-					color:'黑色',
-					imgUrl:'../../static/img/Children3.jpg',
-					price:'212',
-					count:'1',
-					checked:true 
-				}
-			]
+			isEditOrConfirm: false
+			// itemList: []
 		};
 	},
-	methods: {}
+	mounted() {
+		this.initCheckedList();
+	},
+	methods: {
+		...mapActions(['initCheckedList', 'CHECKEDALL', 'CHANGESELECT','DELGOODS']),
+		changeNum(e, index) {
+			console.log(index);
+			this.cartList[index].count = e;
+		}
+	},
+	computed: {
+		...mapState({
+			cartList: state => state.cart.cartList
+		}),
+		...mapGetters(['checkedAll', 'totalCount'])
+	}
 };
 </script>
 
 <style scoped>
+.cart-list {
+	padding-bottom: 100rpx;
+}
 .cart-item {
-	display: flex; 
+	display: flex;
 	padding: 20rpx;
 	align-items: center;
 	background-color: #f7f7f7;
@@ -124,17 +143,25 @@ export default {
 	left: 0;
 	width: 100%;
 	height: 100rpx;
-	margin-bottom: 100rpx;
+	margin-bottom: 95rpx;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	
-	border-top: 2rpx solid #F7F7F7 ;
+	font-size: 32rpx;
+	border-top: 2rpx solid #f7f7f7;
+	background-color: #fff;
 }
+
+/* #ifdef MP-WEIXIN || APP-PLUS*/
+.cart-footer {
+	margin-bottom: 0rpx;
+}
+/* #endif */
 
 .cart-total {
 	display: flex;
-/* 	padding-right: 20rpx; */
+
+	/* 	padding-right: 20rpx; */
 }
 
 .select-all {
@@ -149,9 +176,20 @@ export default {
 }
 
 .cart-checkout {
-	background-color: #42B7FB;
-	color: #FFFFFF;
+	background-color: #42b7fb;
+	color: #ffffff;
 	padding: 0 60rpx;
 	line-height: 100rpx;
+}
+
+.count-text {
+	margin-left: 10rpx;
+}
+
+.cart-empty {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 900rpx;
 }
 </style>
