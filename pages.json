@@ -66,7 +66,11 @@
 			"path": "pages/me/me",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"scrollIndicator": "none",
+					"titleNView": false
+				}
 			}
 
 		}, {
@@ -217,7 +221,7 @@
 	"uniIdRouter": {},
 	"tabBar": {
 		"color": "#636263",
-		"selectedColor": "#3cc51f",
+		"selectedColor": "#49BDFB",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"spacing": "5px",

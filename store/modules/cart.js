@@ -6,7 +6,7 @@ export default {
 				color: '黑色',
 				imgUrl: '../../static/img/Children1.jpg',
 				price: '212',
-				count: '1',
+				count: 1,
 				checked: false
 			},
 			{
@@ -15,7 +15,7 @@ export default {
 				color: '黑色',
 				imgUrl: '../../static/img/Children2.jpg',
 				price: '212',
-				count: '1',
+				count: 1,
 				checked: true
 			},
 			{
@@ -24,7 +24,7 @@ export default {
 				color: '黑色',
 				imgUrl: '../../static/img/Children3.jpg',
 				price: '212',
-				count: '1',
+				count: 1,
 				checked: true
 			},
 			{
@@ -33,7 +33,7 @@ export default {
 				color: '黑色',
 				imgUrl: '../../static/img/Children2.jpg',
 				price: '212',
-				count: '1',
+				count: 1,
 				checked: true
 			},
 			{
@@ -42,7 +42,7 @@ export default {
 				color: '黑色',
 				imgUrl: '../../static/img/Children3.jpg',
 				price: '212',
-				count: '1',
+				count: 1,
 				checked: true
 			},
 			{
@@ -51,7 +51,7 @@ export default {
 				color: '黑色',
 				imgUrl: '../../static/img/Children2.jpg',
 				price: '212',
-				count: '1',
+				count: 1,
 				checked: true
 			},
 			{
@@ -60,7 +60,7 @@ export default {
 				color: '黑色',
 				imgUrl: '../../static/img/Children3.jpg',
 				price: '212',
-				count: '1',
+				count: 1,
 				checked: true
 			},
 			{
@@ -69,7 +69,7 @@ export default {
 				color: '黑色',
 				imgUrl: '../../static/img/Children2.jpg',
 				price: '212',
-				count: '1',
+				count: 1,
 				checked: true
 			},
 			{
@@ -78,7 +78,7 @@ export default {
 				color: '黑色',
 				imgUrl: '../../static/img/Children3.jpg',
 				price: '212',
-				count: '1',
+				count: 1,
 				checked: true
 			}
 		],
@@ -144,22 +144,42 @@ export default {
 				}
 			})
 		},
-		
-		delGoods(state){
-			state.cartList = state.cartList.filter(item=>{
+
+		delGoods(state) {
+			state.cartList = state.cartList.filter(item => {
 				let el = state.checkedList.indexOf(item.id)
-				if(el===-1){
+				if (el === -1) {
 					return true
-				}else{
-					state.checkedList.forEach((i,idx)=>{
-						if(i === item.id){
-							state.checkedList.splice(idx,1);
+				} else {
+					state.checkedList.forEach((i, idx) => {
+						if (i === item.id) {
+							state.checkedList.splice(idx, 1);
 						}
 					})
 					return false
 				}
-				
+
 			})
+		},
+
+		addToCart(state, goodsInfo) {
+			let exit = false;
+			state.cartList.forEach(item => {
+				if (item.id === goodsInfo.id) {
+					item.count =  Number(item.count) + Number(goodsInfo.count) ;
+					exit = true;
+				}
+
+			})
+			if (!exit) {
+				state.cartList.push(goodsInfo);
+			}
+			// let res = state.cartList.indexOf(goodsInfo.id)
+			// if(res>-1){
+			// 	state.cartList[res].count += goodsInfo.count;
+			// }else{
+			// 	state.cartList.push(goodsInfo);
+			// }
 		}
 
 	},
@@ -170,13 +190,13 @@ export default {
 		},
 		//合计+结算数量
 		totalCount(state) {
-			let total={
-				pprice :0,
-				num : 0
+			let total = {
+				pprice: 0,
+				num: 0
 			}
-			state.cartList.forEach(item=>{
-				if(state.checkedList.indexOf(item.id)>-1){
-					total.pprice += item.price*item.count
+			state.cartList.forEach(item => {
+				if (state.checkedList.indexOf(item.id) > -1) {
+					total.pprice += item.price * item.count
 					total.num = state.checkedList.length
 				}
 			});
@@ -201,12 +221,19 @@ export default {
 		}, id) {
 			commit('changeSelect', id);
 		},
-		DELGOODS({commit}){
+		DELGOODS({
+			commit
+		}) {
 			commit("delGoods");
-			  uni.showToast({
-				title:'删除成功',
-				icon:"none"
+			uni.showToast({
+				title: '删除成功',
+				icon: "none"
 			})
+		},
+		ADDTOCART({
+			commit
+		}, goodsInfo) {
+			commit("addToCart", goodsInfo)
 		}
 	}
 

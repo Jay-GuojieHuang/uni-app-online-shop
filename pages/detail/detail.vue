@@ -31,8 +31,8 @@
 		<!-- 底部 -->
 		<view class="detail-foot">
 			<view class="iconfont icon-xiaoxi"></view>
-			<view class="iconfont icon-gouwuche"></view>
-			<view class="add-cart" @tap="addToCart">加入购物车</view>
+			<view class="iconfont icon-gouwuche" @tap="goCart"></view>
+			<view class="add-cart" @tap="showPop">加入购物车</view>
 			<view class="buy-now bg-color" @tap="buyNow">立即购买</view>
 		</view>
 
@@ -44,10 +44,10 @@
 				<view class="">
 					<view class="pop-number">
 						<view class="">购买数量</view>
-						<UniNumberBox :min="1"></UniNumberBox>
+						<UniNumberBox :min="1" :value="count" @change="changeNumber"></UniNumberBox>
 					</view>
 
-					<view class="pop-sub">确定</view>
+					<view class="pop-sub" @tap="addToCart">确定</view>
 				</view>
 			</view>
 		</view>
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+
 import $http from '@/common/api/request.js';
 import UniNumberBox from '@/components/uni/uni-number-box/uni-number-box.vue';
 import Card from '@/components/common/Card.vue';
@@ -137,7 +138,8 @@ export default {
 				}
 			],
 			isShow: false,
-			animationData: {}
+			animationData: {},
+			count:1,
 		};
 	},
 	methods: {
@@ -164,7 +166,7 @@ export default {
 		showPop() {
 			var animation = uni.createAnimation({
 				// 动画时间
-				duration: 1000,
+				duration: 200,
 				// 动画速度
 				timingFunction: 'linear'
 			});
@@ -197,7 +199,27 @@ export default {
 			this.showPop();
 		},
 		buyNow() {
-			this.isShow = true;
+			this.showPop();
+		},
+		// changeNumber
+		changeNumber(e){
+			this.count = e;
+		},
+		goCart(){
+			uni.switchTab({
+				url:'../cart/cart'
+			})
+		},
+		addToCart(){
+	
+			this.$set(this.goodsInfo,"checked",false);
+			this.$set(this.goodsInfo,"count",this.count);
+			this.$store.dispatch("ADDTOCART",this.goodsInfo);
+			this.hidePop();
+			uni.showToast({
+				title:"成功加入购物车！"
+			})
+			
 		}
 	}
 };
