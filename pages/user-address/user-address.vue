@@ -1,20 +1,20 @@
 <template>
 	<view class="address-management">
 		<view class="address-list">
-			<view class="list-item f-color">
+			<view @tap="toEditAddress(index)" class="list-item f-color" v-for="item,index in list" :key="index">
 				<view class="person-detail">
 					<view class="recipient">
-						Jay
+						{{item.name}}
 					</view>
 					<view class="phone">
-						1370000000
+						{{item.tel}}
 					</view>
 				</view>
 				<view class="address">
-					<view class="defalut bg-color">
+					<view v-if="item.isDefault" class="defalut bg-color">
 						默认
 					</view>
-					广东省深圳市南山区xxx路
+					{{item.city}}{{item.address}}
 				</view>
 			</view>
 		</view>
@@ -25,15 +25,30 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
 	data() {
 		return {};
+	},
+	computed:{
+		...mapState({
+			list: state=>state.address.list
+		})
 	},
 	methods: {
 		goAddAddress(){
 			uni.navigateTo({
 				url:"/pages/add-new-address/add-new-address"
 			})
+		},
+		toEditAddress(index){
+		  let addressObj = JSON.stringify({
+			  index:index,
+			  item: this.list[index]
+		  })
+		 uni.navigateTo({
+		 	url:`/pages/add-new-address/add-new-address?data=${addressObj}`
+		 })
 		}
 	}
 };

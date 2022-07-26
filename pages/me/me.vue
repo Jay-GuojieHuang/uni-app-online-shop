@@ -13,7 +13,7 @@
 			</view>
 			<!-- 我的订单 -->
 			<view class="order">
-				<view class="order-title f-color">
+				<view class="order-title f-color" @tap="goOrders">
 					<view class="">我的订单</view>
 					<view class="">全部订单 ></view>
 				</view>
@@ -148,6 +148,11 @@ export default {
 		naviToConfig() {
 			uni.navigateTo({
 				url:'/pages/user-config/user-config'
+			})
+		},
+		goOrders(){
+			uni.navigateTo({
+				url:'/pages/orders/orders'
 			})
 		}
 	}

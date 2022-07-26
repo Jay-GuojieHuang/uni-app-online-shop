@@ -269,6 +269,42 @@
             }
             
         }
+        ,{
+            "path" : "pages/orders/orders",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的订单",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"app-plus": {
+					"scrollIndicator": "none",
+					"titleNView": {
+						// "type": "transparent",
+						// "searchInput": {
+						// 	"borderRadius": "15px",
+						// 	"placeholder": "Nike",
+						// 	"disabled": false,
+						// 	"align": "left",
+						// 	"backgroundColor": "#F7F7F7",
+						// 	"autoFocus": true,
+						// 	"placeholderColor": "#B3B3B3"
+						// },
+						"buttons": [
+							{	"type": "menu",
+								// "float": "right",
+								"color": "#5F5F5F",
+								"text": "搜索"
+								// "fontSize": "16px",
+								// "width": "60px" 	
+								
+							}
+						]
+						
+					}
+				}
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
