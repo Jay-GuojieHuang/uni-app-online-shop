@@ -25,19 +25,19 @@
 					</view>
 					<view class="order-item">
 						<image class="order-item-img" src="../../static/img/order2.png" mode=""></image>
-						<view class="">待付款</view>
+						<view class="">待发货</view>
 					</view>
 					<view class="order-item">
 						<image class="order-item-img" src="../../static/img/order3.png" mode=""></image>
-						<view class="">待付款</view>
+						<view class="">待收货</view>
 					</view>
 					<view class="order-item">
 						<image class="order-item-img" src="../../static/img/order4.png" mode=""></image>
-						<view class="">待付款</view>
+						<view class="">待评价</view>
 					</view>
 					<view class="order-item">
 						<image class="order-item-img" src="../../static/img/order5.png" mode=""></image>
-						<view class="">待付款</view>
+						<view class="">售后</view>
 					</view>
 				</view>
 			</view>

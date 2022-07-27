@@ -54,13 +54,13 @@ export default {
 				tel:'13700000000',
 				city:'广东省江门市开平市',
 				address:'xxx路，xxx房',
-				isDefault:true
+				isDefault:false
 			},
 		]
 	},
 	getters:{
-		isDefault(){
-			return 
+		defaultAddress(state){
+			return state.list.filter(v=>v.isDefault)
 		}
 	}
 	

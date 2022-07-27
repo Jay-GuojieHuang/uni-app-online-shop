@@ -48,7 +48,7 @@
 						合计
 						<text class="f-active-color count-text">${{ totalCount.pprice }}</text>
 					</view>
-					<view class="cart-checkout">结算({{ totalCount.num }})</view>
+					<view class="cart-checkout" @tap="goConfirmOrder">结算({{ totalCount.num }})</view>
 				</view>
 			</template>
 			<template v-else>
@@ -86,6 +86,11 @@ export default {
 		changeNum(e, index) {
 			console.log(index);
 			this.cartList[index].count = e;
+		},
+		goConfirmOrder(){
+			uni.navigateTo({
+				url:'/pages/confirm-order/confirm-order'
+			})
 		}
 	},
 	computed: {
