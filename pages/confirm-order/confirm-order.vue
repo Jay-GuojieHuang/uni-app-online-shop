@@ -4,12 +4,12 @@
 			<Lines></Lines>
 			<!-- 收件人和地址栏 -->
 			<view @tap="goAddressList">
-				<view v-if="defaultAddress.length > 0" class="address-content f-color">
+				<view v-if="address" class="address-content f-color">
 					<view class="recipient">
-						<view class="name">收件人：{{ defaultAddress[0].name }}</view>
-						<view class="phone">{{ defaultAddress[0].tel }}</view>
+						<view class="name">收件人：{{ address.name }}</view>
+						<view class="phone">{{ address.tel }}</view>
 					</view>
-					<view class="address">{{ defaultAddress[0].city }}{{ defaultAddress[0].address }}</view>
+					<view class="address">{{ address.city }}{{ address.address }}</view>
 				</view>
 				<view v-else class="address-content f-color">请点击设置默认地址</view>
 				<Lines></Lines>
@@ -64,7 +64,7 @@
 				<text>合计：</text>
 				<text class="f-active-color">$1234.00</text>
 			</view>
-			<view class="submit-btn">提交订单</view>
+			<view class="submit-btn" @tap="goPayment">提交订单</view>
 		</view>
 	</view>
 </template>
@@ -89,9 +89,24 @@ export default {
 			}
 		});
 	},
+	onLoad(){
+		if(this.defaultAddress.length>0){
+			this.address = this.defaultAddress[0]
+		}
+		
+		uni.$on("selectAddress",res=>{
+			this.address = res;
+		})
+	},
+	onUnload(){
+		uni.$off("selectAddress",()=>{
+			console.log(事件已移除);
+		})
+	},
 	data() {
 		return {
 			viewHomeHeight: 0,
+			address:[],
 			tabList: [
 				{
 					name: '全部',
@@ -160,7 +175,12 @@ export default {
 	methods: {
 		goAddressList(){
 			uni.navigateTo({
-				url:'../user-address/user-address'
+				url:'../user-address/user-address?type=selectAddress'
+			})
+		},
+		goPayment(){
+			uni.navigateTo({
+				url:"/pages/payment/payment"
 			})
 		}
 	},

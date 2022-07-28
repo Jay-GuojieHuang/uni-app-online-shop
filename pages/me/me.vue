@@ -5,7 +5,7 @@
 			<view class="me-header" :style="`padding-top:${statusBarHeight}px `">
 				<view class="header-main">
 					<view class="header-config" @tap="naviToConfig"><image class="config-img" src="../../static/img/config.png"></image></view>
-					<view class="header-avatar">
+					<view class="header-avatar" @tap="goLogin">
 						<image class="avatar-img" src="../../static/img/commodity1.jpg" mode=""></image>
 						<view class="user-name">JJJayisme</view>
 					</view>
@@ -153,6 +153,11 @@ export default {
 		goOrders(){
 			uni.navigateTo({
 				url:'/pages/orders/orders'
+			})
+		},
+		goLogin(){
+			uni.navigateTo({
+				url:'../login/login'
 			})
 		}
 	}
