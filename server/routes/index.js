@@ -27,6 +27,35 @@ router.get('/', function(req, res, next) {
 });
 
 
+//验证手机号是否存在
+router.post('/api/register',function(req,res,next) {
+	
+	let params = {
+		userName : req.body.phone
+		
+	}
+	
+	//查询手机号是否存在
+	connection.query(user.queryUserName(params),function(error, result ,fields){
+		if(result.length >0) {
+			res.send({
+				data:{
+					success:false,
+					msg:"手机号已存在",
+					data:{}
+				}
+			})
+		}else{
+			res.send({
+				success: true
+			})
+		}
+	})
+})
+
+
+
+
 //用户登录
 router.post('/api/login', function(req, res, next) {
 

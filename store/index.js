@@ -7,7 +7,7 @@ Vue.use(Vuex);
 //for cart page state
 import cart from './modules/cart.js'
 import address from './modules/address.js'
-import user from 'modules/user.js'
+import user from './modules/user.js'
 
 
 

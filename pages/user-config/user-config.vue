@@ -20,11 +20,12 @@
 			<view class="">地址管理</view>
 			<view class="">></view>
 		</view>
-		<view class="user-config-exit">退出</view>
+		<view class="user-config-exit" @tap='logout'>退出</view>
 	</view>
 </template>
 
 <script>
+	import {mapMutations} from 'vuex'
 export default {
 	data() {
 		return {};
@@ -32,9 +33,10 @@ export default {
 	methods: {
 		goToAddressManagement(){
 			uni.navigateTo({
-				url:'/pages/user-address/user-address'
+				url:'../user-address/user-address'
 			})
-		}
+		},
+		...mapMutations(['logout']),
 	}
 };
 </script>

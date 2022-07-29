@@ -17,6 +17,7 @@
 </template>
 
 <script>
+	import $http from '@/common/api/request.js'
 	import Lines from '@/components/common/Line.vue'
 	export default {
 		components:{
@@ -52,6 +53,9 @@
 			
 			goGetCode(){
 				if (!this.validate("validatePhone") ) return;
+				
+				
+				
 				
 				uni.navigateTo({
 					url:'../getMsgCode/getMsgCode'

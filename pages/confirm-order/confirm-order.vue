@@ -1,5 +1,5 @@
 <template>
-	<view class="wrap" :style="`height: ${viewHomeHeight}px;`">
+	<view class="wrap" :style="`height: ${viewHomeHeight+50}px;`">
 		<view class="confirm_order">
 			<Lines></Lines>
 			<!-- 收件人和地址栏 -->
@@ -305,16 +305,16 @@ export default {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
-	height: 100rpx;
+	height: 125rpx;
 	width: 100%;
 	background-color: #fff;
 }
 .submit-btn {
 	width: 200rpx;
 	background-color: #49bdfb;
-	height: 100rpx;
+	height: 125rpx;
 	text-align: center;
-	line-height: 100rpx;
+	line-height: 125rpx;
 	margin-left: 20rpx;
 	color: #fff;
 }

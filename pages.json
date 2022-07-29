@@ -350,34 +350,36 @@
 		// 	"scrollIndicator": "none" // 在APP平台都不显示滚动条  
 		// }
 	},
-	"uniIdRouter": {},
-	"tabBar": {
-		"color": "#636263",
-		"selectedColor": "#49BDFB",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"spacing": "5px",
-		"list": [{
-			"pagePath": "pages/index/index",
-			"iconPath": "static/tabbar/index.png",
-			"selectedIconPath": "static/tabbar/indexSelected.png",
-			"text": "主页"
-		}, {
-			"pagePath": "pages/list/list",
-			"iconPath": "static/tabbar/catergory.png",
-			"selectedIconPath": "static/tabbar/catergorySelected.png",
-			"text": "分类"
-		}, {
-			"pagePath": "pages/cart/cart",
-			"iconPath": "static/tabbar/cart.png",
-			"selectedIconPath": "static/tabbar/cartSelected.png",
-			"text": "购物车"
-		}, {
-			"pagePath": "pages/me/me",
-			"iconPath": "static/tabbar/me.png",
-			"selectedIconPath": "static/tabbar/meSelected.png",
-			"text": "我的"
-		}]
-	}
+	"uniIdRouter": {}
+	
+	//原生tabbar
+	// "tabBar": {
+	// 	"color": "#636263",
+	// 	"selectedColor": "#49BDFB",
+	// 	"borderStyle": "black",
+	// 	"backgroundColor": "#ffffff",
+	// 	"spacing": "5px",
+	// 	"list": [{
+	// 		"pagePath": "pages/index/index",
+	// 		"iconPath": "static/tabbar/index.png",
+	// 		"selectedIconPath": "static/tabbar/indexSelected.png",
+	// 		"text": "主页"
+	// 	}, {
+	// 		"pagePath": "pages/list/list",
+	// 		"iconPath": "static/tabbar/catergory.png",
+	// 		"selectedIconPath": "static/tabbar/catergorySelected.png",
+	// 		"text": "分类"
+	// 	}, {
+	// 		"pagePath": "pages/cart/cart",
+	// 		"iconPath": "static/tabbar/cart.png",
+	// 		"selectedIconPath": "static/tabbar/cartSelected.png",
+	// 		"text": "购物车"
+	// 	}, {
+	// 		"pagePath": "pages/me/me",
+	// 		"iconPath": "static/tabbar/me.png",
+	// 		"selectedIconPath": "static/tabbar/meSelected.png",
+	// 		"text": "我的"
+	// 	}]
+	// }
 
 }

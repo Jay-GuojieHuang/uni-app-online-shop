@@ -5,7 +5,7 @@
 			<uniNaviBar title="购物车" :right-text="isEditOrConfirm ? '完成' : '编辑'" statusBar="true" @clickRight="isEditOrConfirm = !isEditOrConfirm"></uniNaviBar>
 
 			<!-- 商品内容 -->
-			<view class="cart-list">
+			<view class="cart-list"  :style="`height: ${viewHomeHeight + 400}px;`">
 				<view class="cart-item" v-for="(item, index) in cartList" :key="item.id">
 					<label class="radio" @tap="CHANGESELECT(item.id)">
 						<radio value="" color="#42B7FB" :checked="item.checked" />
@@ -60,22 +60,43 @@
 				</view>
 			</template>
 		</view>
+		<TabBar currentPage="cart"></TabBar>
 	</view>
 </template>
 
 <script>
+import TabBar from '@/components/common/Tabbar.vue'
 import uniNumberBox from '@/components/uni/uni-number-box/uni-number-box.vue';
 import { mapState, mapActions, mapGetters } from 'vuex';
 import uniNaviBar from '@/components/uni/uni-nav-bar/uni-nav-bar.vue';
 export default {
 	components: {
 		uniNaviBar,
-		uniNumberBox
+		uniNumberBox,
+		TabBar
+	},
+	
+	onReady() {
+		//获取盒子高度
+		// let view = uni.createSelectorQuery().select('.view-home');
+		// view.boundingClientRect(data => {
+		// 	this.viewHomeHeight = data.height;
+		// 	// this.viewHomeHeight = 2000; //uniapp的bug
+		// }).exec();
+	
+		uni.getSystemInfo({
+			success: res => {
+				// console.log(res);
+				// this.viewHomeHeight = res.windowHeight - this.getClientHeight();
+			 this.viewHomeHeight = res.windowHeight;
+			}
+		});
 	},
 	data() {
 		return {
-			isEditOrConfirm: false
-			// itemList: []
+			isEditOrConfirm: false,
+			viewHomeHeight:0
+		
 		};
 	},
 	mounted() {
@@ -143,12 +164,13 @@ export default {
 }
 
 .cart-footer {
+	z-index: 9999;
 	position: fixed;
-	bottom: 0;
+	bottom: 125rpx;
 	left: 0;
 	width: 100%;
 	height: 100rpx;
-	margin-bottom: 95rpx;
+	/* margin-bottom: 200rpx; */
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

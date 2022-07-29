@@ -1,13 +1,19 @@
 <script>
+	import {mapMutations}from 'vuex'
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			console.log('App Launch');
+			this.initUser();
+			
 		},
 		onShow: function() {
 			console.log('App Show')
 		},
 		onHide: function() {
 			console.log('App Hide')
+		},
+		methods:{
+			...mapMutations(['initUser'])
 		}
 	}
 </script>

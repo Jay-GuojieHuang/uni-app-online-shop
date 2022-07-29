@@ -3,13 +3,13 @@
 		<Lines></Lines>
 		<view class="list">
 			<!-- 左侧滑动 -->
-			<scroll-view scroll-y="true" class="list-left" :style="`height: ${viewHomeHeight}px;`">
+			<scroll-view scroll-y="true" class="list-left" :style="`height: ${viewHomeHeight + 50}px;`">
 				<view v-for="item in leftdata" :key="item.id" class="left-item" @tap="changeTab(item.id)">
 					<view class="left-name" :class="currLeftIndex === item.id ? 'left-name-active' : ''">{{ item.name }}</view>
 				</view>
 			</scroll-view>
 			<!-- 右侧滑动 -->
-			<scroll-view scroll-y="true" class="list-right" :style="`height: ${viewHomeHeight}px;`">
+			<scroll-view scroll-y="true" class="list-right" :style="`height: ${viewHomeHeight + 50}px;`">
 				<view class="right-list" v-for="(item, index) in rightData" :key="index">
 					<block v-for="k,i in item" :key="i">
 						<view class="list-title">{{k.name}}</view>
@@ -23,15 +23,18 @@
 				</view>
 			</scroll-view>
 		</view>
+		<TabBar currentPage="list"></TabBar>
 	</view>
 </template>
 
 <script>
 import $http from '@/common/api/request.js';
 import Lines from '@/components/common/Line.vue';
+import TabBar from '@/components/common/Tabbar.vue';
 export default {
 	components: {
-		Lines
+		Lines,
+		TabBar
 	},
 	onNavigationBarSearchInputClicked() {
 		uni.navigateTo({

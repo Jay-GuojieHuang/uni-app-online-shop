@@ -101,7 +101,7 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	height: 100rpx;
+	height: 125rpx;
 	position: fixed;
 	left: 0;
 	bottom: 0;
@@ -111,8 +111,8 @@ export default {
 
 .submit-btn {
 	width: 300rpx;
-	height: 100rpx;
-	line-height: 100rpx;
+	height: 125rpx;
+	line-height: 125rpx;
 	text-align: center;
 	background-color: #42B7FB;
 	color: #fff;
@@ -121,8 +121,8 @@ export default {
 .total {
 	background-color: #000000;
 	color: #fff;
-	height: 100rpx;
-	line-height: 100rpx;
+	height: 125rpx;
+	line-height: 125rpx;
 	width: 100%;
 	padding-left: 20rpx;
 }

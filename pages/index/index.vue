@@ -5,7 +5,7 @@
 
 		<view class="wx-nav">
 			<view class="iconfont icon-Magnifier" @tap="navigateToSearch"></view>
-			<text class="wx-text">百年奥莱1</text>
+			<text class="wx-text">百年奥莱</text>
 			<view class="space"></view>
 		</view>
 		<!-- #endif -->
@@ -16,7 +16,7 @@
 			</view>
 		</scroll-view>
 
-		<swiper @change="onChangeTab" :current="topBarIndex" :style="`height: ${viewHomeHeight}px;`">
+		<swiper @change="onChangeTab" :current="topBarIndex" :style="`height: ${viewHomeHeight + 50}px;`">
 			<swiper-item v-for="(item, index) in newTopBar" :key="index">
 				<!-- 	<view>{{item.name}}</view> -->
 				<!-- 推荐模版 -->
@@ -77,6 +77,7 @@
 		<Shop></Shop>
 		<card cardTitle="为您推荐"></card>
 		<CommodityList></CommodityList> -->
+		<TabBar currentPage="index"></TabBar>
 	</view>
 </template>
 
@@ -91,6 +92,7 @@ import Hot from '@/components/index/Hot.vue';
 import Shop from '@/components/index/Shop.vue';
 
 import $http from '@/common/api/request.js';
+import TabBar from '@/components/common/Tabbar.vue'
 export default {
 	components: {
 		IndexSwiper,
@@ -100,7 +102,8 @@ export default {
 		Banner,
 		Icons,
 		Hot,
-		Shop
+		Shop,
+		TabBar
 	},
 	data() {
 		return {
@@ -284,7 +287,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+	
+.index {
+	
+}
+	
 /* #ifdef MP-WEIXIN */
 .wx-nav {
 	height: 150rpx;

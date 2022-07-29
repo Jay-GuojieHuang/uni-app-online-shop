@@ -67,6 +67,7 @@
 <script>
 import $http from '@/common/api/request.js';
 import LoginOption from '@/components/common/Login.vue';
+import { mapMutations } from 'vuex';
 export default {
 	components: {
 		LoginOption
@@ -89,6 +90,7 @@ export default {
 		};
 	},
 	methods: {
+		...mapMutations(['login']),
 		close() {
 			uni.navigateBack({
 				delta: 1
@@ -113,7 +115,8 @@ export default {
 					title: '登录中。。。'
 				});
 
-				$http.request({
+				$http
+					.request({
 						header: {
 							'Content-Type': 'application/x-www-form-urlencoded'
 						},
@@ -123,25 +126,35 @@ export default {
 							userName: this.userName,
 							userPwd: this.password
 						},
-						dataType:'json',
+						dataType: 'json'
 					})
 					.then(res => {
 						console.log(res);
-						uni.hideLoading();
-						uni.showToast({
-							title: '登陆成功',
-							icon: 'success'
-						});
-						uni.switchTab({
-							url:'../index/index'
-						})
+						if (res.success) {
+							//保存用户信息
+							this.login(res.data);
+							uni.hideLoading();
+							uni.showToast({
+								title: '登陆成功',
+								icon: 'success'
+							});
+							uni.redirectTo({
+								url: '../index/index'
+							});
+						}else{
+							uni.showToast({
+								title: res.msg,
+								icon: 'error'
+							});
+							return
+						}
 					})
 					.catch(() => {
 						uni.showToast({
 							title: '请求失败',
 							icon: 'error'
 						});
-							// uni.hideLoading()
+						// uni.hideLoading()
 					});
 
 				// uni.switchTab({
@@ -174,7 +187,7 @@ export default {
 .close-img {
 	width: 50rpx;
 	height: 50rpx;
-	padding-top: 50rpx;
+	padding-top: 60rpx;
 }
 
 .logo {
@@ -215,7 +228,8 @@ export default {
 .login-sec-header {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: center;	
+	padding-top: 60rpx;
 }
 
 .register-acc {

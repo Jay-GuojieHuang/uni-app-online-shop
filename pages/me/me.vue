@@ -1,13 +1,13 @@
 <template>
-	<view class="wrap" :style="`height: ${viewHomeHeight}px;`">
+	<view class="wrap" :style="`height: ${viewHomeHeight + 80}px;`">
 		<view class="me">
 			<!-- 头部 -->
 			<view class="me-header" :style="`padding-top:${statusBarHeight}px `">
 				<view class="header-main">
 					<view class="header-config" @tap="naviToConfig"><image class="config-img" src="../../static/img/config.png"></image></view>
 					<view class="header-avatar" @tap="goLogin">
-						<image class="avatar-img" src="../../static/img/commodity1.jpg" mode=""></image>
-						<view class="user-name">JJJayisme</view>
+						<image class="avatar-img" :src="loginStatus && userInfo.imgUrl ? userInfo.imgUrl : ''" mode=""></image>
+						<view class="user-name">{{loginStatus && userInfo.imgUrl  ? userInfo.nickName:'未登录'}}</view>
 					</view>
 				</view>
 			</view>
@@ -107,17 +107,23 @@
 				</view>
 			</view>
 		</view>
+		<TabBar currentPage="me"></TabBar>
 	</view>
 </template>
 
 <script>
-// import Lines from "@/components/common/Line.vue"
-
-// 获取状态栏高度
-// var statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px';
+import {mapState} from 'vuex';
+import TabBar from '@/components/common/Tabbar.vue';
 export default {
 	components: {
 		// Lines
+		TabBar
+	},
+	computed:{
+		...mapState({
+			loginStatus: state=>state.user.loginStatus,
+			userInfo: state=>state.user.userInfo
+		})
 	},
 	data() {
 		return {

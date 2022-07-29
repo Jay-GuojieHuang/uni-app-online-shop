@@ -206,7 +206,7 @@ export default {
 			this.count = e;
 		},
 		goCart(){
-			uni.switchTab({
+			uni.redirectTo({
 				url:'../cart/cart'
 			})
 		},
@@ -281,7 +281,7 @@ swiper {
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	height: 100rpx;
+	height: 150rpx;
 	background-color: #fff;
 	display: flex;
 	align-items: center;
