@@ -54,12 +54,38 @@
 			goGetCode(){
 				if (!this.validate("validatePhone") ) return;
 				
-				
-				
-				
-				uni.navigateTo({
-					url:'../getMsgCode/getMsgCode'
+				$http.request({
+					header: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					},
+					url:'/register',
+					method:'POST',
+					data:{
+						phone : this.validatePhone
+					},
+						dataType: 'json'
+				}).then(res=>{
+					// console.log(res);
+					if(res.success){
+					
+						uni.navigateTo({
+							url:`../getMsgCode/getMsgCode?phone=${this.validatePhone}`
+						})
+						
+					}else{
+						uni.showToast({
+							title: res.msg,
+							icon:"error"
+						})
+						return
+					}
+				}).catch(()=>{
+					uni.showToast({
+						title: '请求失败',
+						icon: 'error'
+					})
 				})
+				
 			}
 		}
 	}

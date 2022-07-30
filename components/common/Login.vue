@@ -4,15 +4,15 @@
 			<view class="text">或用以下方式登陆</view>
 		</view>
 		<view class="option-imgs">
-			<view class="option-item">
+			<view class="option-item" @tap="loginThirdParty('weixin')">
 				<image class="option-img" src="../../static/img/wx.png" mode=""></image>
 				<text>微信</text>
 			</view>
-			<view class="option-item">
+			<view class="option-item"  @tap="loginThirdParty('sinaweibo')">
 				<image class="option-img" src="../../static/img/wb.png" mode=""></image>
 				<text>微博</text>
 			</view>
-			<view class="option-item">
+			<view class="option-item"  @tap="loginThirdParty('qq')">
 				<image class="option-img" src="../../static/img/qq.png" mode=""></image>
 				<text>QQ</text>
 			</view>
@@ -22,6 +22,23 @@
 
 <script>
 	export default {
+		methods:{
+			loginThirdParty(provider){
+				uni.login({
+					provider:provider,
+					success: (res) => {
+						// console.log(res);
+						let openid = res.authResult.openid;
+						uni.getUserInfo({
+							provider:provider,
+							success: (res) => {
+								console.log(res);
+							}
+						})
+					}
+				})
+			}
+		}
 		
 	}
 </script>

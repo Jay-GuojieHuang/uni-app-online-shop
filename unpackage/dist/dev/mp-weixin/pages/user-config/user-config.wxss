@@ -1,0 +1,20 @@
+
+.user-config.data-v-39cdfa90 {
+	/* padding: 0 20rpx; */
+}
+.config-item.data-v-39cdfa90 {
+	height: 80rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 2rpx solid #f3f2f3;
+	padding: 20rpx;
+}
+.user-config-exit.data-v-39cdfa90 {
+	background-color: #49bdfb;
+	color: #fff;
+	width: 100%;
+	line-height: 80rpx;
+	text-align: center;
+}
+

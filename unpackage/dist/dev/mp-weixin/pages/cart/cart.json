@@ -1,6 +1,8 @@
 {
   "navigationBarTitleText": "",
   "usingComponents": {
-    "uni-navi-bar": "/components/uni/uni-nav-bar/uni-nav-bar"
+    "uni-navi-bar": "/components/uni/uni-nav-bar/uni-nav-bar",
+    "uni-number-box": "/components/uni/uni-number-box/uni-number-box",
+    "tab-bar": "/components/common/Tabbar"
   }
 }

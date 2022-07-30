@@ -1,0 +1,1 @@
+<view class="pay-success data-v-ff819b78"><view class="data-v-ff819b78">支付成功！</view><view data-event-opts="{{[['tap',[['goHome',['$event']]]]]}}" class="go-home f-active-color data-v-ff819b78" bindtap="__e">返回首页继续逛～</view></view>

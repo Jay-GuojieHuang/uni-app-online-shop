@@ -1,0 +1,24 @@
+
+.pay-success.data-v-ff819b78 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	width: 100%;
+}
+.go-home.data-v-ff819b78 {
+	width: 300rpx;
+	height: 80rpx;
+	border: 4rpx solid #42B7FB;
+	border-radius: 50rpx;
+	text-align: center;
+	line-height: 80rpx;
+	margin-top: 20rpx;
+}
+

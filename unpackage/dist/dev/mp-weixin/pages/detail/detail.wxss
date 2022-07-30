@@ -54,7 +54,7 @@ swiper.data-v-3e159eb4 {
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	height: 100rpx;
+	height: 150rpx;
 	background-color: #fff;
 	display: flex;
 	align-items: center;

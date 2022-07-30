@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "uni-navi-bar": "/components/uni/uni-nav-bar/uni-nav-bar"
+  }
+}

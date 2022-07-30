@@ -195,9 +195,9 @@ export default {
 				this.isShow = false;
 			}, 200);
 		},
-		addToCart() {
-			this.showPop();
-		},
+		// addToCart() {
+		// 	this.showPop();
+		// },
 		buyNow() {
 			this.showPop();
 		},
@@ -211,14 +211,38 @@ export default {
 			})
 		},
 		addToCart(){
+				console.log('test');
+				$http.request({
+					header: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'token': true
+					},
+					url:'/test',
+					method:'POST',
+					// data:{
+					// 	userName : this.phone,
+					// 	code : this.userInputCode
+					// },
+					
+				}).then(res=>{
+					console.log(res);
+				}).catch(()=>{
+					uni.showToast({
+						title: '请求失败',
+						icon: 'error'
+					})
+					return
+				})
+				
 	
-			this.$set(this.goodsInfo,"checked",false);
-			this.$set(this.goodsInfo,"count",this.count);
-			this.$store.dispatch("ADDTOCART",this.goodsInfo);
-			this.hidePop();
-			uni.showToast({
-				title:"成功加入购物车！"
-			})
+	
+			// this.$set(this.goodsInfo,"checked",false);
+			// this.$set(this.goodsInfo,"count",this.count);
+			// this.$store.dispatch("ADDTOCART",this.goodsInfo);
+			// this.hidePop();
+			// uni.showToast({
+			// 	title:"成功加入购物车！"
+			// })
 			
 		}
 	}

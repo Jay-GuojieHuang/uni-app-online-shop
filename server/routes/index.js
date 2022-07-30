@@ -1,6 +1,11 @@
-const {json} = require('express');
+const {
+	json
+} = require('express');
 let express = require('express');
-
+//验证码
+let code = '';
+//接入短信的sdk
+var QcloudSms = require("qcloudsms_js");
 
 var router = express.Router();
 
@@ -9,13 +14,13 @@ var user = require('../db/userSql');
 
 
 
-router.all('*', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Methods', '*');
-  res.header('Content-Type', 'application/json;charset=utf-8');
-  next();
+router.all('*', function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	//Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+	res.header('Access-Control-Allow-Methods', '*');
+	res.header('Content-Type', 'application/json;charset=utf-8');
+	next();
 });
 
 
@@ -26,28 +31,117 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+//第三方登陆
+router.post('/api/loginThirdParty')
 
-//验证手机号是否存在
-router.post('/api/register',function(req,res,next) {
-	
+
+
+router.post('/api/test', function(req, res, next) {
+	res.send({
+		data: {
+			a: 1
+		}
+	})
+})
+
+
+//注册==》增加一条数据
+router.post('/api/addUser', function(req, res, next) {
+	//前端给后端的数据
 	let params = {
-		userName : req.body.phone
-		
+		userName: req.body.userName,
+		userCode: req.body.code
+	};
+	if (params.userCode == code) {
+		console.log(params);
+		console.log(user.insertUser(params));
+		connection.query(user.insertUser(params), function(error, results, fields) {
+			connection.query(user.queryUserName(params), function(err, result) {
+				if (result.length > 0) {
+					res.send({
+						data: {
+							success: true,
+							msg: '注册成功!',
+							data:result[0]
+						}
+					})
+				}
+
+			})
+
+		})
 	}
-	
-	//查询手机号是否存在
-	connection.query(user.queryUserName(params),function(error, result ,fields){
-		if(result.length >0) {
+})
+
+
+//发送验证码
+router.post('/api/code', function(req, res, next) {
+	let params = {
+		phone: req.body.phone
+	};
+	//接入skd
+	// 短信应用 SDK AppID
+	var appid = 1400187558; // SDK AppID 以1400开头
+	// 短信应用 SDK AppKey
+	var appkey = "dc9dc3391896235ddc2325685047edc7";
+	// 需要发送短信的手机号码
+	var phoneNumbers = [params.phone];
+	// 短信模板 ID，需要在短信控制台中申请
+	var templateId = 298000; // NOTE: 这里的模板ID`7839`只是示例，真实的模板 ID 需要在短信控制台中申请
+	// 签名
+	var smsSign = "测试信息"; // NOTE: 签名参数使用的是`签名内容`，而不是`签名ID`。这里的签名"腾讯云"只是示例，真实的签名需要在短信控制台申请
+	// 实例化 QcloudSms
+	var qcloudsms = QcloudSms(appid, appkey);
+	// 设置请求回调处理, 这里只是演示，用户需要自定义相应处理回调
+	function callback(err, ress, resData) {
+		if (err) {
+			console.log("err: ", err);
+		} else {
+			code = ress.req.body.params[0];
 			res.send({
-				data:{
-					success:false,
-					msg:"手机号已存在",
-					data:{}
+				data: {
+					success: true,
+					code: code
 				}
 			})
-		}else{
+		}
+	}
+	var ssender = qcloudsms.SmsSingleSender();
+	var paramss = [Math.floor(Math.random() * (9999 - 1000)) + 1000]; //发送的验证码
+	ssender.sendWithParam("86", phoneNumbers[0], templateId,
+		paramss, smsSign, "", "", callback);
+})
+
+
+
+
+
+
+
+//验证手机号是否存在
+router.post('/api/register', function(req, res, next) {
+
+	let params = {
+		userName: req.body.phone
+
+	}
+	console.log(user.queryUserName(params));
+	//查询手机号是否存在
+	connection.query(user.queryUserName(params), function(error, result, fields) {
+		if (result.length > 0) {
 			res.send({
-				success: true
+				data: {
+					success: false,
+					msg: "手机号已存在",
+					data: {}
+				}
+			})
+		} else {
+			res.send({
+
+				data: {
+					success: true
+				}
 			})
 		}
 	})
@@ -61,42 +155,42 @@ router.post('/api/login', function(req, res, next) {
 
 	//前端给后端的数据
 	let params = {
-		"userName" : req.body.userName,
-		"userPwd"  : req.body.userPwd
+		"userName": req.body.userName,
+		"userPwd": req.body.userPwd
 	}
-	console.log(user.queryUserName( params ))
+	console.log(user.queryUserName(params))
 	// 查询用户名或者手机号存在不存在
 	// console.log(123);
-	 connection.query( user.queryUserName( params ) , function (error, results, fields) {
-		if( results.length > 0 ){
-			console.log(user.queryUserPwd( params ))
-			 connection.query( user.queryUserPwd( params ) , function (err, result) {
-				 if(  result.length > 0 ){
-					 res.send({
-					 	data:{
-					 		success:true,
-					 		msg:"登录成功",
-							data:result[0]
-					 	}
-					 })
-				 }else{
-					 res.send({
-						data:{
-							success:false,
-							msg:"密码不正确"
+	connection.query(user.queryUserName(params), function(error, results, fields) {
+		if (results.length > 0) {
+			console.log(user.queryUserPwd(params))
+			connection.query(user.queryUserPwd(params), function(err, result) {
+				if (result.length > 0) {
+					res.send({
+						data: {
+							success: true,
+							msg: "登录成功",
+							data: result[0]
 						}
-					 })
-				 }
-			 })
-		}else{
+					})
+				} else {
+					res.send({
+						data: {
+							success: false,
+							msg: "密码不正确"
+						}
+					})
+				}
+			})
+		} else {
 			res.send({
-				data:{
-					success:false,
-					msg:"用户名或手机号不存在"
+				data: {
+					success: false,
+					msg: "用户名或手机号不存在"
 				}
 			})
 		}
-	 })
+	})
 });
 
 

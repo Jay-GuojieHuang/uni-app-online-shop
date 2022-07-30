@@ -1,0 +1,119 @@
+
+.bg-color.data-v-8a71bbb4 {
+	background-color: #f7f7f7;
+}
+.order-main.data-v-8a71bbb4 {
+	/* background-color: #fff; */
+}
+.order-header.data-v-8a71bbb4 {
+	height: 80rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 2rpx solid #f7f7f7;
+	background-color: #fff;
+}
+.header-item.data-v-8a71bbb4 {
+	text-align: center;
+	background-color: #fff;
+	flex: 1;
+	line-height: 80rpx;
+	height: 70rpx;
+}
+.active.data-v-8a71bbb4 {
+	border-bottom: 4rpx solid #49bdfb;
+}
+.order-item.data-v-8a71bbb4 {
+	background-color: #fff;
+	margin-bottom: 30rpx;
+}
+.item-header.data-v-8a71bbb4 {
+	width: 100%;
+	height: 80rpx;
+	padding: 20rpx 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.shop-name.data-v-8a71bbb4 {
+	padding-left: 20rpx;
+}
+.item-status.data-v-8a71bbb4 {
+	padding-right: 20rpx;
+}
+.item-content.data-v-8a71bbb4 {
+	padding: 20rpx;
+	display: flex;
+	background-color: #f7f7f7;
+}
+.item-detail.data-v-8a71bbb4 {
+	display: flex;
+	flex: 1;
+	justify-content: space-between;
+}
+.item-name.data-v-8a71bbb4 {
+	display: flex;
+	flex-direction: column;
+	padding: 0 10rpx;
+}
+.name-text.data-v-8a71bbb4 {
+	height: 80rpx;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	color: #333333;
+	word-break: break-all;
+	/* padding: 5rpx 20rpx; */
+}
+.item-price-num.data-v-8a71bbb4 {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+.item-img.data-v-8a71bbb4 {
+	width: 200rpx;
+	height: 200rpx;
+}
+.total.data-v-8a71bbb4 {
+	height: 100rpx;
+	line-height: 100rpx;
+	text-align: right;
+}
+.checkout.data-v-8a71bbb4 {
+	height: 150rpx;
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.checkout-text.data-v-8a71bbb4 {
+	height: 70rpx;
+	width: 200rpx;
+	line-height: 70rpx;
+	text-align: center;
+	border: 2rpx solid #49bdfb;
+	color: #49bdfb;
+	margin-right: 20rpx;
+	border-radius: 50rpx;
+}
+.no-data.data-v-8a71bbb4 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 800rpx;
+}
+.go-home-page.data-v-8a71bbb4 {
+	height: 70rpx;
+	width: 200rpx;
+	line-height: 70rpx;
+	text-align: center;
+	border: 2rpx solid #49bdfb;
+	color: #49bdfb;
+	margin-top: 20rpx;
+	border-radius: 50rpx;
+}
+

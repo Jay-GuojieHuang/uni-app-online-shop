@@ -1,0 +1,116 @@
+
+.wrap.data-v-2f2cf9ec {
+	background-color: #f7f7f7;
+}
+.confirm_order.data-v-2f2cf9ec {
+	/* background-color: #f7f7f7; */
+	/* width: 100%; */
+	padding-bottom: 100rpx;
+}
+.address-content.data-v-2f2cf9ec {
+	display: flex;
+	flex-direction: column;
+	padding: 20rpx;
+	background-color: #fff;
+}
+.recipient.data-v-2f2cf9ec {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.address.data-v-2f2cf9ec {
+	padding-top: 20rpx;
+}
+.order-item.data-v-2f2cf9ec {
+	background-color: #fff;
+	margin-bottom: 30rpx;
+}
+.item-header.data-v-2f2cf9ec {
+	width: 100%;
+	height: 80rpx;
+	padding: 20rpx 0;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.shop-name.data-v-2f2cf9ec {
+	padding-left: 20rpx;
+}
+.item-content.data-v-2f2cf9ec {
+	padding: 20rpx;
+	display: flex;
+	background-color: #f7f7f7;
+	margin-bottom: 20rpx;
+}
+.item-detail.data-v-2f2cf9ec {
+	display: flex;
+	flex: 1;
+	justify-content: space-between;
+}
+.item-name.data-v-2f2cf9ec {
+	display: flex;
+	flex-direction: column;
+	padding: 0 10rpx;
+}
+.name-text.data-v-2f2cf9ec {
+	height: 80rpx;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	color: #333333;
+	word-break: break-all;
+	/* padding: 5rpx 20rpx; */
+}
+.item-price-num.data-v-2f2cf9ec {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+.item-img.data-v-2f2cf9ec {
+	width: 200rpx;
+	height: 200rpx;
+}
+.shipmentFee.data-v-2f2cf9ec {
+	height: 80rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 20rpx;
+}
+.note.data-v-2f2cf9ec {
+	display: flex;
+	min-height: 80rpx;
+	padding: 20rpx 20rpx;
+}
+.goods-total.data-v-2f2cf9ec {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	height: 80rpx;
+	padding: 0 20rpx;
+}
+.confirm-order-footer.data-v-2f2cf9ec {
+	position: fixed;
+	/* z-index: 9999; */
+	left: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	height: 125rpx;
+	width: 100%;
+	background-color: #fff;
+}
+.submit-btn.data-v-2f2cf9ec {
+	width: 200rpx;
+	background-color: #49bdfb;
+	height: 125rpx;
+	text-align: center;
+	line-height: 125rpx;
+	margin-left: 20rpx;
+	color: #fff;
+}
+

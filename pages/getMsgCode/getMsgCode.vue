@@ -6,7 +6,7 @@
 				<view class='login-from'>
 					<view class='login-user'>
 						<text class='user-text'>验证码</text>
-						<input type="text" placeholder="请输入验证码"/>
+						<input type="text" v-model="userInputCode" placeholder="请输入验证码"/>
 						<button plain='true' size='mini' :disabled="disabled" @tap="sendCode"> {{codeMsg}} </button>
 					</view>
 				</view>
@@ -23,9 +23,12 @@
 	export default {
 		data() {
 			return {
-				countDown: 10,
+				countDown: 60,
 				codeMsg:'',
-				disabled: false
+				disabled: false,
+				phone:'',
+				SmsCode:'',
+				userInputCode:''
 			}
 		},
 		components:{
@@ -35,11 +38,39 @@
 		this.codeMsg = `重新发送(${this.countDown})`
 		this.sendCode()
 		},
-		onLodad(e) {
-		
+		onLoad(e) {
+		 this.phone = e.phone
+		 console.log(e);
 		},
 		methods: {
+			...mapMutations(['login']),
 			sendCode(){
+				
+				$http.request({
+					header: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					},
+					url:'/code',
+					method:'POST',
+					data:{
+						phone : this.phone
+					},
+						dataType: 'json'
+				}).then(res=>{
+					// console.log(res);
+					if(res.success){
+						this.SmsCode = res.code
+					}
+					
+					
+				}).catch(()=>{
+					uni.showToast({
+						title: '请求失败',
+						icon: 'error'
+					})
+				})
+				
+				
 				this.disabled = true;
 				let timer = setInterval(()=>{
 					--this.countDown;
@@ -49,15 +80,72 @@
 				setTimeout(()=>{
 					clearInterval(timer);
 					this.disabled = false
-					this.countDown=10
+					this.countDown=60
 					this.codeMsg = `重新发送`
-				},10000)
+				},60000)
 			},
 			goNext(){
-				uni.switchTab({
+				
+				//对比验证吗
+				if(this.SmsCode == this.userInputCode){
+					$http.request({
+						header: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+						url:'/addUser',
+						method:'POST',
+						data:{
+							userName : this.phone,
+							code : this.userInputCode
+						},
+							dataType: 'json'
+					}).then(res=>{
+						
+						this.login(res.data)
+						// console.log(res);
+						
+						// this.login({
+						// 	imgUrl: "../../static/img/commodity1.jpg",
+						// 	nickName: this.phone,
+						// 	phone: this.phone,
+						// 	token: "",
+						// 	userName: "默认昵称",
+						// 	userPwd: "123"
+						// })
+						
+						
+						if(res.success){
+							uni.showToast({
+								title: '用户添加成功',
+								icon: 'success'
+							})
+						}
+						return
+						
+					}).catch(()=>{
+						uni.showToast({
+							title: '请求失败',
+							icon: 'error'
+						})
+						return
+					})
 					
+					
+					
+							uni.navigateTo({
 					url:"/pages/index/index",
 				})
+				}else{
+					uni.showToast({
+						title:"验证码错误，请重试！",
+						icon:'error'
+					})
+					return
+				}
+				
+				
+				
+		
 			}
 		}
 	}

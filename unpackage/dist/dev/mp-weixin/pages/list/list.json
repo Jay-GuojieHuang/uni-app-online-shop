@@ -3,6 +3,7 @@
   "enablePullDownRefresh": false,
   "navigationBarBackgroundColor": "#FFFFFF",
   "usingComponents": {
-    "lines": "/components/common/Line"
+    "lines": "/components/common/Line",
+    "tab-bar": "/components/common/Tabbar"
   }
 }

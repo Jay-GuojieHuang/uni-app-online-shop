@@ -10501,7 +10501,15 @@ var render = function() {
         [
           _c(
             "uni-view",
-            { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
+            {
+              staticClass: _vm._$g(4, "sc"),
+              attrs: { _i: 4 },
+              on: {
+                click: function($event) {
+                  return _vm.$handleViewEvent($event)
+                }
+              }
+            },
             [
               _c("v-uni-image", {
                 staticClass: _vm._$g(5, "sc"),
@@ -10513,7 +10521,15 @@ var render = function() {
           ),
           _c(
             "uni-view",
-            { staticClass: _vm._$g(7, "sc"), attrs: { _i: 7 } },
+            {
+              staticClass: _vm._$g(7, "sc"),
+              attrs: { _i: 7 },
+              on: {
+                click: function($event) {
+                  return _vm.$handleViewEvent($event)
+                }
+              }
+            },
             [
               _c("v-uni-image", {
                 staticClass: _vm._$g(8, "sc"),
@@ -10525,7 +10541,15 @@ var render = function() {
           ),
           _c(
             "uni-view",
-            { staticClass: _vm._$g(10, "sc"), attrs: { _i: 10 } },
+            {
+              staticClass: _vm._$g(10, "sc"),
+              attrs: { _i: 10 },
+              on: {
+                click: function($event) {
+                  return _vm.$handleViewEvent($event)
+                }
+              }
+            },
             [
               _c("v-uni-image", {
                 staticClass: _vm._$g(11, "sc"),
@@ -11043,6 +11067,13 @@ var render = function() {
                           type: "text",
                           placeholder: "请输入验证码",
                           _i: 7
+                        },
+                        model: {
+                          value: _vm._$g(7, "v-model"),
+                          callback: function($$v) {
+                            _vm.$handleVModelEvent(7, $$v)
+                          },
+                          expression: "userInputCode"
                         }
                       }),
                       _c(

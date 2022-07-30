@@ -1,0 +1,31 @@
+
+.login-tel.data-v-e3870f74{
+	width: 100vw;
+	height: 100vh;
+}
+.tel-main.data-v-e3870f74{
+	padding:0 20rpx;
+}
+.login-from.data-v-e3870f74{
+	padding:30rpx 0;
+}
+.login-user.data-v-e3870f74{
+	font-size:32rpx;
+	padding:10rpx 0;
+	display: flex;
+	align-items: center;
+	border-bottom:2rpx solid #f7f7f7;
+}
+.user-text.data-v-e3870f74{
+	padding-right:10rpx;
+}
+.tel.data-v-e3870f74{
+	width:100%;
+	height: 80rpx;
+	line-height: 80rpx;
+	text-align: center;
+	color:#FFFFFF;
+	background-color: #49BDFB;
+	border-radius: 40rpx;
+}
+
