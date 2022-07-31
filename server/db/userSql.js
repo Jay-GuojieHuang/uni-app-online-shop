@@ -1,7 +1,14 @@
 var User = {
 	//查询用户名
 	queryUserName(userObj){
-		return `select * from user where userName = '${userObj.userName}' or phone = '${userObj.userName}'`;
+		
+		if(userObj.userName){
+			return `select * from user where userName = '${userObj.userName}' or phone = '${userObj.userName}'`;
+		}else{
+			//第三方登陆
+			return `select * from user where provider = '${userObj.provider}' and openid = '${userObj.openid}'`;
+		}
+
 	},
 	//验证用户名和密码
 	queryUserPwd(userObj){
@@ -10,12 +17,16 @@ var User = {
 	},
 	//增加一条用户数据
 	insertUser(userObj){
-		
+		let userName = userObj.userName || userObj.openid
 		const jwt = require('jsonwebtoken');
-		let payload = {name: userObj.userName};
+		let payload = {name: userName};
 		let secret = "jjjayisme";
 		let token = jwt.sign(payload,secret);
-		return `insert into user (userName,userPwd,phone,imgUrl,nickName,token) values ('${userObj.userName}','','${userObj.userName}','../../static/img/commodity1.jpg','默认昵称','${token}')`;
+		let nickName = userObj.nickName || '默认昵称';
+		let provider = userObj.provider || '';
+		let avatarUrl =  userObj.avatarUrl || '../../static/img/commodity1.jpg';
+		let openid = userObj.openid || '';
+		return `insert into user (userName,userPwd,phone,imgUrl,nickName,token,provider,openid) values ('${userName}','','${userName}','${avatarUrl}','${nickName}','${token}','${provider}','${openid}')`;
 	}
 }
 

@@ -33,14 +33,17 @@ router.get('/', function(req, res, next) {
 
 //第三方登陆
 router.post('/api/loginThirdParty', function(req, res, next) {
-	
-		let params = {
-			provider: req.body.provider,
-			openid: req.body.openId,
-			nickName: req.body.nickName,
-			avatarUrl: req.body.avatarUrl
-		}
-	
+
+	前端给后端的数据
+	let params = {
+		provider: req.body.provider,
+		openId: req.body.openId,
+		nickName: req.body.nickName,
+		avatarUrl: req.body.avatarUrl
+	}
+	// console.log(params);
+	//查询数据库中也没有存在的用户
+
 	connection.query(user.queryUserName(params), function(error, result, fields) {
 		if (result.length > 0) {
 			// 数据库中存在用户，则读取信息
@@ -55,39 +58,16 @@ router.post('/api/loginThirdParty', function(req, res, next) {
 			//用户不存在，先写入后读取
 			connection.query(user.insertUser(params), function(err, result) {
 				connection.query(user.queryUserName(params), function(e, r) {
-					console.log(user.queryUserName(params));
-					console.log(r[0]);
 					res.send({
-						data:{
-						success: true,
 						data: r[0]
-						}
-	
 					})
 				});
-		
+
 			})
-		
+
 		}
-		
 	})
-	
-	
-	
-	
-	
 })
-
-
-
-
-
-
-
-
-
-
-
 
 
 router.post('/api/test', function(req, res, next) {
@@ -116,7 +96,7 @@ router.post('/api/addUser', function(req, res, next) {
 						data: {
 							success: true,
 							msg: '注册成功!',
-							data:result[0]
+							data: result[0]
 						}
 					})
 				}
@@ -253,7 +233,8 @@ router.post('/api/login', function(req, res, next) {
 
 router.get('/api/goods/id', function(req, res, next) {
 	let id = req.query.id;
-	connection.query("select * from goods_search where id =" + id + "", function(error, results, fields) {
+	connection.query("select * from goods_search where id =" + id + "", function(error, results,
+		fields) {
 		if (error) throw error;
 		// console.log('The solution is: ', results);
 
@@ -348,7 +329,8 @@ router.get("/api/goods/search", function(req, res, next) {
 	// console.log(name,order);
 
 
-	connection.query("select * from goods_search where name like '%" + name + "%' order by " + orderName + " " +
+	connection.query("select * from goods_search where name like '%" + name + "%' order by " +
+		orderName + " " +
 		order + "",
 		function(error, results, fields) {
 			if (error) throw error;
@@ -441,7 +423,7 @@ router.get("/api/index_list/data", function(req, res, next) {
 					name: '食品母婴'
 				}
 			],
-			data: [{
+			gdata: [{
 					type: "swiperList",
 					data: [{
 							imgUrl: '../../static/img/swiper1.jpg'

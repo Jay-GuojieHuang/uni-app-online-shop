@@ -21,18 +21,79 @@
 </template>
 
 <script>
+	import $http from '@/common/api/request.js'
+	import {mapMutations} from 'vuex'
 	export default {
 		methods:{
-			loginThirdParty(provider){
+			...mapMutations(['login']),
+			loginThirdParty(mode){
+				// console.log('123',provider);
 				uni.login({
-					provider:provider,
+					provider:mode,
 					success: (res) => {
 						// console.log(res);
 						let openid = res.authResult.openid;
+						// console.log(provider);
 						uni.getUserInfo({
-							provider:provider,
+							provider:mode,
 							success: (res) => {
 								console.log(res);
+								let provider = mode;
+								let openId = res.userInfo.openId ||  res.userInfo.openid;
+								let nickName = res.userInfo.nickName;
+								let avatarUrl = res.userInfo.avatarUrl;
+								//把第三方数据存入数据库
+								$http.request({
+									header: {
+										'Content-Type': 'application/x-www-form-urlencoded'
+									},
+									url:'/loginThirdParty',
+									method:'POST',
+									data:{
+										provider,
+										openId,
+										nickName,
+										avatarUrl
+									},
+										dataType: 'json'
+								}).then(res=>{
+									console.log('123',res);
+									if(res.success){
+										uni.showToast({
+											title: '用户添加成功',
+											icon: 'success'
+										})
+										// console.log(res.data);
+										this.login(res.data);
+										uni.navigateTo({
+											url:'/pages/index/index'
+										})
+										
+									}else{
+										if(res){
+											this.login(res.data);
+											uni.navigateTo({
+												url:'/pages/index/index'
+											})
+										}
+										// uni.showToast({
+										// 	title: '发生错误',
+										// 	icon: 'error'
+										// })
+										return
+									}
+									
+									
+								}).catch(()=>{
+									uni.showToast({
+										title: '请求失败',
+										icon: 'error'
+									})
+									return
+								})
+								
+								
+								
 							}
 						})
 					}

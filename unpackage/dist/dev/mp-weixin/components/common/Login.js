@@ -114,46 +114,89 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _request = _interopRequireDefault(__webpack_require__(/*! @/common/api/request.js */ 37));
+var _vuex = __webpack_require__(/*! vuex */ 9);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
-  methods: {
-    loginThirdParty: function loginThirdParty(provider) {
+  methods: _objectSpread(_objectSpread({},
+  (0, _vuex.mapMutations)(['login'])), {}, {
+    loginThirdParty: function loginThirdParty(mode) {
+      // console.log('123',provider);
       uni.login({
-        provider: provider,
+        provider: mode,
         success: function success(res) {
           // console.log(res);
           var openid = res.authResult.openid;
+          // console.log(provider);
           uni.getUserInfo({
-            provider: provider,
+            provider: mode,
             success: function success(res) {
               console.log(res);
+              var provider = mode;
+              var openId = res.userInfo.openId || res.userInfo.openid;
+              var nickName = res.userInfo.nickName;
+              var avatarUrl = res.userInfo.avatarUrl;
+              //把第三方数据存入数据库
+              _request.default.request({
+                header: {
+                  'Content-Type': 'application/x-www-form-urlencoded' },
+
+                url: '/loginThirdParty',
+                method: 'POST',
+                data: {
+                  provider: provider,
+                  openId: openId,
+                  nickName: nickName,
+                  avatarUrl: avatarUrl },
+
+                dataType: 'json' }).
+              then(function (res) {
+
+                if (res.success) {
+                  uni.showToast({
+                    title: '用户添加成功',
+                    icon: 'success' });
+
+                }
+                return;
+
+              }).catch(function () {
+                uni.showToast({
+                  title: '请求失败',
+                  icon: 'error' });
+
+                return;
+              });
+
+
+
             } });
 
         } });
 
-    } } };exports.default = _default;
+    } }) };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
