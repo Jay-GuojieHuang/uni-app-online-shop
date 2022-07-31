@@ -7,7 +7,7 @@
 				<view v-if="address" class="address-content f-color">
 					<view class="recipient">
 						<view class="name">收件人：{{ address.name }}</view>
-						<view class="phone">{{ address.tel }}</view>
+						<view class="phone">{{ address.phone }}</view>
 					</view>
 					<view class="address">{{ address.city }}{{ address.address }}</view>
 				</view>

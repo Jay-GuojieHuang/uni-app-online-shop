@@ -5,11 +5,12 @@
 				<view @tap="goConfirmOrder(item)">
 					<view class="person-detail">
 						<view class="recipient">{{ item.name }}</view>
-						<view class="phone">{{ item.tel }}</view>
+						<view class="phone">{{ item.phone }}</view>
 					</view>
 					<view class="address">
-						<view v-if="item.isDefault" class="defalut bg-color">默认</view>
-						{{ item.city }}{{ item.address }}
+						<view v-if="item.isDefault==='1'" class="defalut bg-color">默认</view>
+						<!-- {{ item.city }}{{ item.address }} -->
+						{{ item.province }}{{ item.city }}{{item.district}}{{ item.address }}
 					</view>
 				</view>
 			</view>
@@ -19,15 +20,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+	import $http from '@/common/api/request.js'
+import { mapState,mapMutations } from 'vuex';
 export default {
 	onLoad(e) {
 		if (e.type === 'selectAddress') {
 			// console.log(123);
 			this.isFromConfirmOrder = true;
 		}
+		//请求收货地址数据
+		this.__initAddress();
 	},
-	data() {
+	data() { 
 		return {
 			isFromConfirmOrder: false
 		};
@@ -38,6 +42,29 @@ export default {
 		})
 	},
 	methods: {
+		...mapMutations(['__init']),
+		//初始化（请求收货地址）
+		__initAddress(){
+			$http.request({
+				header:{
+					token: true
+				},
+				url:'/getAddress',
+				method:'post',
+			}).then(res=>{
+			
+				console.log(res);
+				this.__init(res)
+				
+			}).catch(()=>{
+				uni.showToast({
+					title: '请求失败',
+					icon: 'error'
+				})
+				return
+			})
+		},
+		
 		goAddAddress() {
 			uni.navigateTo({
 				url: '/pages/add-new-address/add-new-address'

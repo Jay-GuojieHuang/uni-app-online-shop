@@ -2,6 +2,7 @@ const {
 	json
 } = require('express');
 let express = require('express');
+const jwt = require('jsonwebtoken');
 //验证码
 let code = '';
 //接入短信的sdk
@@ -30,6 +31,32 @@ router.get('/', function(req, res, next) {
 		title: 'Express'
 	});
 });
+
+
+//查询当前用户的收货地址
+router.post('/api/getAddress',function(req, res, next){
+	let token = req.headers.token;
+	let decodedToken = jwt.decode(token);
+	let phone  = decodedToken.name;
+	
+	connection.query(`select * from user where phone = ${phone}`,function(error,result,fields){
+		// console.log(result);
+		let id = result[0].id
+		connection.query(`select * from address where userid = ${id}`,function(e,r){
+			// console.log(r);
+			res.send({
+				data:r
+			})
+		})
+		
+	})
+
+})
+
+
+
+
+
 
 //第三方登陆
 router.post('/api/loginThirdParty', function(req, res, next) {

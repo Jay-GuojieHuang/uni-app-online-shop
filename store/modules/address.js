@@ -9,6 +9,11 @@ export default {
 		}
 	},
 	mutations: {
+		//从数据库拿到当前用户的收货地址信息
+		__init(state,addressList){
+			state.list = addressList
+			console.log("map",state.list);
+		},
 		addAddress(state, addObj){
 			
 				if(addObj.isDefault){
@@ -42,25 +47,25 @@ export default {
 	},
 	state:{
 		list:[
-			{
-				name:'张三',
-				tel:'13700000000',
-				city:'广东省江门市开平市',
-				address:'xxx路，xxx房',
-				isDefault:false
-			},
-			{
-				name:'李四',
-				tel:'13700000000',
-				city:'广东省江门市开平市',
-				address:'xxx路，xxx房',
-				isDefault:false
-			},
+			// {
+			// 	name:'张三',
+			// 	tel:'13700000000',
+			// 	city:'广东省江门市开平市',
+			// 	address:'xxx路，xxx房',
+			// 	isDefault:false
+			// },
+			// {
+			// 	name:'李四',
+			// 	tel:'13700000000',
+			// 	city:'广东省江门市开平市',
+			// 	address:'xxx路，xxx房',
+			// 	isDefault:false
+			// },
 		]
 	},
 	getters:{
 		defaultAddress(state){
-			return state.list.filter(v=>v.isDefault)
+			return state.list.filter(v=>v.isDefault==="1")
 		}
 	}
 	

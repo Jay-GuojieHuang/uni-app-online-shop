@@ -19,16 +19,18 @@ export default {
 				 console.log(userData);
 				 state.userInfo = JSON.parse(userData);
 				 state.loginStatus = true;
-				 state.token = userData.token;
+				 state.token = state.userInfo.token;
 				 console.log(state.userInfo);
 			 }
 		
 		},
 		//登陆后要保存的用户信息
 		login(state,userInfo){
+			console.log(userInfo);
 			state.userInfo = userInfo;
 			state.loginStatus = true;
 			state.token = userInfo.token;
+			console.log(state.token);
 			// 持久化存储
 			uni.setStorageSync('userInfo',JSON.stringify(userInfo));
 		},

@@ -39,7 +39,7 @@
 							success: (res) => {
 								console.log(res);
 								let provider = mode;
-								let openId = res.userInfo.openId ||  res.userInfo.openid;
+								let openId = res.userInfo.openId ||  res.userInfo.openid || res.userInfo.id;
 								let nickName = res.userInfo.nickName;
 								let avatarUrl = res.userInfo.avatarUrl;
 								//把第三方数据存入数据库
@@ -65,15 +65,15 @@
 										})
 										// console.log(res.data);
 										this.login(res.data);
-										uni.navigateTo({
-											url:'/pages/index/index'
+										uni.navigateBack({
+											delta:1
 										})
 										
 									}else{
 										if(res){
 											this.login(res.data);
-											uni.navigateTo({
-												url:'/pages/index/index'
+											uni.navigateBack({
+												delta:1
 											})
 										}
 										// uni.showToast({

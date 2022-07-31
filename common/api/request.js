@@ -26,7 +26,7 @@ export default {
 		if(options.header.token) {
 			// console.log(store.state);
 			options.header.token = store.state.user.token;
-			
+			// console.log('header',store.state.user.userInfo.token);
 			if(!options.header.token) {
 				// 默认是null
 				uni.showToast({
