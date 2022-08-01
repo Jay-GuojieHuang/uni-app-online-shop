@@ -77,7 +77,9 @@ export default {
 		TabBar
 	},
 	onShow() {
-		this.getData()
+		this.getData();
+		console.log('shiow');
+	this.initCheckedList();
 	},
 	onReady() {
 		//获取盒子高度
@@ -137,9 +139,20 @@ export default {
 			
 		},
 		goConfirmOrder(){
-			uni.navigateTo({
-				url:'/pages/confirm-order/confirm-order'
-			})
+			//跳转付款前先检查是否选中商品
+			if(this.checkedList.length>0){
+				// console.log(this.checkedList);
+				uni.navigateTo({
+					url:`/pages/confirm-order/confirm-order?detail=${JSON.stringify(this.checkedList)}`
+				})
+				
+			}else{
+				return uni.showToast({
+					title:'请选择商品',
+					icon:'error'
+				})
+			}
+			
 		},
 		getData(){
 			$http.request({
@@ -166,7 +179,8 @@ export default {
 	},
 	computed: {
 		...mapState({
-			cartList: state => state.cart.cartList
+			cartList: state => state.cart.cartList,
+			checkedList: state=>state.cart.checkedList
 		}),
 		...mapGetters(['checkedAll', 'totalCount'])
 	}

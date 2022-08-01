@@ -231,12 +231,14 @@ export default {
 							title: '操作成功',
 							icon: 'success'
 						})
+						this.hidePop();
 					}
 				}).catch(()=>{
 					uni.showToast({
 						title: '请求失败',
 						icon: 'error'
 					})
+					this.hidePop();
 					return
 				})
 				

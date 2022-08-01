@@ -89,7 +89,7 @@ export default {
 		//从数据库中获取数据
 		initGetDataFromDB(state,list){
 			state.cartList = list;
-			
+			state.checkedList = []
 		},
 		
 		INIT(state) {

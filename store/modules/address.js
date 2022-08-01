@@ -65,7 +65,7 @@ export default {
 	},
 	getters:{
 		defaultAddress(state){
-			return state.list.filter(v=>v.isDefault==="1")
+			return state.list.filter(v=>v.isDefault =="1")
 		}
 	}
 	

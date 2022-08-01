@@ -9,29 +9,29 @@
 						<view class="name">收件人：{{ address.name }}</view>
 						<view class="phone">{{ address.phone }}</view>
 					</view>
-					<view class="address">{{ address.city }}{{ address.address }}</view>
+					<view class="address">{{address.province}}{{ address.city }}{{address.district}}{{ address.address }}</view>
 				</view>
 				<view v-else class="address-content f-color">请点击设置默认地址</view>
 				<Lines></Lines>
 			</view>
 
 			<!-- 商品 -->
-			<view class="order-item" v-for="(order, i) in tabList[0].list" :key="i">
+			<view class="order-item">
 				<view class="item-header f-color">
 					<view class="shop-name">小可爱商店</view>
 					<!-- <view class="item-status f-active-color">{{ order.status }}</view> -->
 				</view>
-				<view class="item-content" v-for="(good, idx) in order.goods_item" :key="idx">
+				<view class="item-content" v-for="(good, idx) in goodsList" :key="idx">
 					<image class="item-img" :src="good.imgUrl" mode=""></image>
 					<view class="item-detail f-color">
 						<view class="item-name">
 							<view class="name-text">{{ good.name }}</view>
-							<view class="color">颜色分类：{{ good.attrs }}</view>
+							<view class="color">颜色分类：黑色</view>
 							<view class="f-active-color">七天无理由退换</view>
 						</view>
 						<view class="item-price-num">
-							<view class="price">${{ good.pprice }}</view>
-							<view class="num">x{{ good.num }}</view>
+							<view class="price">${{ good.price }}</view>
+							<view class="num">x{{ good.count }}</view>
 						</view>
 					</view>
 				</view>
@@ -52,9 +52,9 @@
 				<!-- 合计 -->
 
 				<view class="goods-total">
-					<text>共{{ order.goods_item.length }}件商品</text>
+					<text>共{{ goodsList.length }}件商品</text>
 					<text>小计：</text>
-					<text class="f-active-color">$100.00</text>
+					<text class="f-active-color">$ {{totalCount.pprice}}</text>
 				</view>
 			</view>
 		</view>
@@ -62,7 +62,7 @@
 		<view class="confirm-order-footer">
 			<view class="total-amount">
 				<text>合计：</text>
-				<text class="f-active-color">$1234.00</text>
+				<text class="f-active-color">$ {{totalCount.pprice}}</text>
 			</view>
 			<view class="submit-btn" @tap="goPayment">提交订单</view>
 		</view>
@@ -70,7 +70,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import $http from '@/common/api/request.js'
+import { mapGetters, mapState,mapMutations} from 'vuex';
 import Lines from '@/components/common/Line.vue';
 export default {
 	components: {
@@ -89,7 +90,13 @@ export default {
 			}
 		});
 	},
-	onLoad(){
+	onLoad(e){
+		this.__initAddress()
+		
+		 this.itemList = JSON.parse(e.detail)
+		// console.log(this.cartList,e.detail);
+		
+		
 		if(this.defaultAddress.length>0){
 			this.address = this.defaultAddress[0]
 		}
@@ -105,8 +112,9 @@ export default {
 	},
 	data() {
 		return {
+			itemList:[],
 			viewHomeHeight: 0,
-			address:[],
+			address:"",
 			tabList: [
 				{
 					name: '全部',
@@ -173,19 +181,57 @@ export default {
 		};
 	},
 	methods: {
+		...mapMutations(['__init']),
+		__initAddress(){
+			$http.request({
+				header:{
+					token: true
+				},
+				url:'/getAddress',
+				method:'post',
+			}).then(res=>{
+			
+				console.log(res);
+				this.__init(res)
+				
+			}).catch(()=>{
+				uni.showToast({
+					title: '请求失败',
+					icon: 'error'
+				})
+				return
+			})
+		},
 		goAddressList(){
 			uni.navigateTo({
 				url:'../user-address/user-address?type=selectAddress'
 			})
 		},
 		goPayment(){
-			uni.navigateTo({
+			if(this.address==''){
+				return uni.showToast({
+					title:'请选择收货地址',
+					icon:'none'
+				})
+			}else{
+				uni.navigateTo({
 				url:"/pages/payment/payment"
 			})
+			}
+			
+			
 		}
 	},
 	computed: {
-		...mapGetters(['defaultAddress'])
+		...mapState({
+			cartList: state=>state.cart.cartList
+		}),
+		...mapGetters(['defaultAddress','totalCount']),
+		goodsList(){
+			return this.itemList.map(id=>{
+				return this.cartList.find(i=>i.id==id);
+			})
+		}
 	}
 };
 </script>
