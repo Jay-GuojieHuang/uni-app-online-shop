@@ -21,7 +21,7 @@
 								<view class="">x{{ item.count }}</view>
 							</template>
 							<template v-else>
-								<uniNumberBox @change="changeNum($event, index)" :min="1" :value="item.count"></uniNumberBox>
+								<uniNumberBox @change="changeNum($event, index, item)" :min="1" :value="item.count"></uniNumberBox>
 							</template>
 						</view>
 					</view>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import $http from '@/common/api/request.js'
 import TabBar from '@/components/common/Tabbar.vue'
 import uniNumberBox from '@/components/uni/uni-number-box/uni-number-box.vue';
 import { mapState, mapActions, mapGetters } from 'vuex';
@@ -75,7 +76,9 @@ export default {
 		uniNumberBox,
 		TabBar
 	},
-	
+	onShow() {
+		this.getData()
+	},
 	onReady() {
 		//获取盒子高度
 		// let view = uni.createSelectorQuery().select('.view-home');
@@ -103,15 +106,62 @@ export default {
 		this.initCheckedList();
 	},
 	methods: {
-		...mapActions(['initCheckedList', 'CHECKEDALL', 'CHANGESELECT','DELGOODS']),
-		changeNum(e, index) {
+		...mapActions(['initCheckedList', 'CHECKEDALL', 'CHANGESELECT','DELGOODS',"INITGETDATAFROMDB"]),
+		changeNum(e, index, item) {
 			console.log(index);
-			this.cartList[index].count = e;
+			$http.request({
+					header: {
+						token: true
+					},
+					url: '/updateNumberCart',
+					method: 'post',
+					data:{
+						goodsId: item.goods_id,
+						count: e
+					}
+				})
+				.then(res => {
+					console.log(res);
+
+				this.cartList[index].count = e;
+					
+				})
+				.catch(() => {
+					uni.showToast({
+						title: '请求失败',
+						icon: 'error'
+					});
+					return;
+				});
+			
+			
 		},
 		goConfirmOrder(){
 			uni.navigateTo({
 				url:'/pages/confirm-order/confirm-order'
 			})
+		},
+		getData(){
+			$http.request({
+					header: {
+						token: true
+					},
+					url: '/getcart',
+					method: 'post',
+				})
+				.then(res => {
+					console.log(res);
+					// if(res) res = []
+					this.INITGETDATAFROMDB(res);
+					
+				})
+				.catch(() => {
+					uni.showToast({
+						title: '请求失败',
+						icon: 'error'
+					});
+					return;
+				});
 		}
 	},
 	computed: {

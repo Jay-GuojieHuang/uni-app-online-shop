@@ -33,22 +33,160 @@ router.get('/', function(req, res, next) {
 });
 
 
-//查询当前用户的收货地址
-router.post('/api/getAddress',function(req, res, next){
+//修改当前用户的购物车数据库的商品数量
+router.post('/api/updateNumberCart', function(req, res, next) {
 	let token = req.headers.token;
-	let decodedToken = jwt.decode(token);
-	let phone  = decodedToken.name;
-	
-	connection.query(`select * from user where phone = ${phone}`,function(error,result,fields){
-		// console.log(result);
-		let id = result[0].id
-		connection.query(`select * from address where userid = ${id}`,function(e,r){
+	let phone = jwt.decode(token);
+	let goodsId = req.body.goodsId;
+	let count = req.body.count
+	connection.query(`select * from user where phone = ${phone.name}`, function(errors, results) {
+		let userid = results[0].id;
+
+		connection.query(`select * from goods_cart where uid = ${userid} and goods_id = ${goodsId}`,
+			function(err, result) {
+				let goods_num = result[0].count;
+				let cid = result[0].id;
+				console.log(`update goods_cart set count = replace(count,${count},${goods_num}) where id = ${cid}`);
+				connection.query(
+					`update goods_cart set count = replace(count,${goods_num},${count}) where id = ${cid}`,
+					function(e,r) {
+						// console.log(r);
+						res.send({
+							data:{
+								success: true,
+								
+							}
+						})
+					})
+
+
+
+
+
+			})
+	})
+
+
+})
+
+
+
+
+//获取当前用户的购物车数据
+router.post('/api/getcart', function(req, res, next) {
+	let token = req.headers.token;
+	let phone = jwt.decode(token);
+
+	connection.query(`select * from user where phone = ${phone.name}`, function(errors, results) {
+		let userid = results[0].id;
+
+		connection.query(`select * from goods_cart where uid = ${userid}`, function(e, r) {
 			// console.log(r);
 			res.send({
-				data:r
+				data: r
+			})
+
+		})
+	})
+
+
+})
+
+
+
+
+//更新收货地址
+router.post('/api/updateAddress', function(req, res, next) {
+	let token = req.headers.token;
+	let phone = jwt.decode(token);
+	let name = req.body.name;
+	let province = req.body.province;
+	let city = req.body.city;
+	let district = req.body.district;
+	let tel = req.body.phone;
+	let address = req.body.address;
+	let isDefault = req.body.isDefault;
+	let id = req.body.id;
+
+	connection.query(`select * from user where phone = ${phone.name}`, function(errors, results) {
+		let userid = results[0].id;
+		if (isDefault == "1") {
+			connection.query(
+				`update address set isDefault = 0 where (userid = ${userid} and id != ${id})`,
+				function(e, re) {})
+		}
+		let updateSql =
+			`update address set name = ?,phone = ?,province = ?,city = ?,district = ?,address = ?,isDefault = ?,userid = ? where id = ${id}`
+		connection.query(updateSql, [name, tel, province, city, district, address, isDefault, userid],
+			function(err, result) {
+				res.send({
+					data: {
+						success: '成功'
+					}
+				})
+			})
+
+	})
+})
+
+
+
+
+//新增收货地址 
+
+router.post('/api/addAddress', function(req, res, next) {
+	let token = req.headers.token;
+	let phone = jwt.decode(token);
+	let name = req.body.name;
+	let province = req.body.province;
+	let city = req.body.city;
+	let district = req.body.district;
+	let tel = req.body.phone;
+	let address = req.body.address;
+	let isDefault = req.body.isDefault;
+
+	connection.query(`select * from user where phone = ${phone.name}`, function(errors, results) {
+		let id = results[0].id;
+
+		if (isDefault == "1") {
+			connection.query(
+				`update address set isDefault = 0 where (userid = ${id} and isDefault = 1)`,
+				function(e, re) {})
+		}
+
+		let sqlInsert =
+			`insert into address (name,phone,province,city,district,address,isDefault,userid) values ('${name}','${tel}','${province}','${city}','${district}','${address}','${isDefault}','${id}')`;
+		connection.query(sqlInsert, function(err, r) {
+			res.send({
+				data: {
+					success: true
+				}
 			})
 		})
-		
+
+	})
+
+});
+
+
+
+
+//查询当前用户的收货地址
+router.post('/api/getAddress', function(req, res, next) {
+	let token = req.headers.token;
+	let decodedToken = jwt.decode(token);
+	let phone = decodedToken.name;
+
+	connection.query(`select * from user where phone = ${phone}`, function(error, result, fields) {
+		// console.log(result);
+		let id = result[0].id
+		connection.query(`select * from address where userid = ${id}`, function(e, r) {
+			// console.log(r);
+			res.send({
+				data: r
+			})
+		})
+
 	})
 
 })
@@ -60,14 +198,14 @@ router.post('/api/getAddress',function(req, res, next){
 
 //第三方登陆
 router.post('/api/loginThirdParty', function(req, res, next) {
-	
-		let params = {
-			provider: req.body.provider,
-			openid: req.body.openId,
-			nickName: req.body.nickName,
-			avatarUrl: req.body.avatarUrl
-		}
-	
+
+	let params = {
+		provider: req.body.provider,
+		openid: req.body.openId,
+		nickName: req.body.nickName,
+		avatarUrl: req.body.avatarUrl
+	}
+
 	connection.query(user.queryUserName(params), function(error, result, fields) {
 		if (result.length > 0) {
 			// 数据库中存在用户，则读取信息
@@ -85,24 +223,24 @@ router.post('/api/loginThirdParty', function(req, res, next) {
 					console.log(user.queryUserName(params));
 					console.log(r[0]);
 					res.send({
-						data:{
-						success: true,
-						data: r[0]
+						data: {
+							success: true,
+							data: r[0]
 						}
-	
+
 					})
 				});
-		
+
 			})
-		
+
 		}
-		
+
 	})
-	
-	
-	
-	
-	
+
+
+
+
+
 })
 
 
@@ -143,7 +281,7 @@ router.post('/api/addUser', function(req, res, next) {
 						data: {
 							success: true,
 							msg: '注册成功!',
-							data:result[0]
+							data: result[0]
 						}
 					})
 				}
@@ -280,7 +418,8 @@ router.post('/api/login', function(req, res, next) {
 
 router.get('/api/goods/id', function(req, res, next) {
 	let id = req.query.id;
-	connection.query("select * from goods_search where id =" + id + "", function(error, results, fields) {
+	connection.query("select * from goods_search where id =" + id + "", function(error, results,
+		fields) {
 		if (error) throw error;
 		// console.log('The solution is: ', results);
 
@@ -375,7 +514,8 @@ router.get("/api/goods/search", function(req, res, next) {
 	// console.log(name,order);
 
 
-	connection.query("select * from goods_search where name like '%" + name + "%' order by " + orderName + " " +
+	connection.query("select * from goods_search where name like '%" + name + "%' order by " +
+		orderName + " " +
 		order + "",
 		function(error, results, fields) {
 			if (error) throw error;

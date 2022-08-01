@@ -6,11 +6,11 @@
 		</view>
 		<view class="address-item">
 			<view class="phone">手机号</view>
-			<input type="text" value="" placeholder="请输入手机号" v-model="addressObj.tel" />
+			<input type="text" value="" placeholder="请输入手机号" v-model="addressObj.phone" />
 		</view>
 		<view class="address-item">
 			<view class="name">地址所在地</view>
-			<view class="" @tap="showCityPicker">{{ addressObj.city }} ></view>
+			<view class="" @tap="showCityPicker">{{ selectedCity }} ></view>
 		</view>
 		<view class="address-item">
 			<view class="name">详细地址</view>
@@ -19,7 +19,7 @@
 		<view class="address-item">
 			<view class="phone">设置为默认地址</view>
 			<label class="radio" @tap="RadioChange">
-				<radio value="" color="#49bdfb"  :checked="addressObj.isDefault"/>
+				<radio value="" color="#49bdfb" :checked="addressObj.isDefault == '1'" />
 				<text></text>
 			</label>
 		</view>
@@ -35,19 +35,19 @@
 </template>
 
 <script>
+import $http from '@/common/api/request.js';
 import { mapActions } from 'vuex';
 import mpvueCityPicker from '../../components/uni/mpvue-citypicker/mpvueCityPicker.vue';
 export default {
 	components: {
 		mpvueCityPicker
 	},
-	onLoad(e){
-		if(e.data){
-	
+	onLoad(e) {
+		if (e.data) {
 			// console.log(res);
 			uni.setNavigationBarTitle({
-				title:'修改地址'
-			})
+				title: '修改地址'
+			});
 			let res = JSON.parse(e.data);
 			this.addressObj = res.item;
 			this.index = res.index;
@@ -55,37 +55,93 @@ export default {
 		}
 	},
 	onNavigationBarButtonTap() {
-		
-		if(this.isEdit){
+		if (this.isEdit) {
 			//修改数据
-			this.EDITADDRESS({
-				index:this.index,
-				item:this.addressObj
-			})
-		}else {
-			//新增
 			
+			$http.request({
+					header: {
+						token: true
+					},
+					url: '/updateAddress',
+					method: 'post',
+					data:{
+						...this.addressObj
+					}
+				})
+				.then(res => {
+					console.log(res);
+					uni.showToast({
+						title: res.success,
+						icon: 'none'
+					});
+				})
+				.catch(() => {
+					uni.showToast({
+						title: '请求失败',
+						icon: 'error'
+					});
+					return;
+				});
+			
+			
+			
+			
+			
+			
+			
+			//修改vuex里的数据
+			this.EDITADDRESS({
+				index: this.index,
+				item: this.addressObj
+			});
+		} else {
+			//新增
+
+			$http
+				.request({
+					header: {
+						token: true
+					},
+					url: '/addAddress',
+					method: 'post',
+					data:{
+						...this.addressObj
+					}
+				})
+				.then(res => {
+					console.log(res);
+					
+				})
+				.catch(() => {
+					uni.showToast({
+						title: '请求失败',
+						icon: 'error'
+					});
+					return;
+				});
+
 			this.ADDADDRESS(this.addressObj);
 		}
-		
-		uni.showToast({
-			title:"保存成功"
-		})
-		uni.navigateBack();
 
+		uni.showToast({
+			title: '保存成功'
+		});
+		uni.navigateBack();
 	},
-	
+
 	data() {
 		return {
 			pickerValueDefault: [0, 0, 1],
 			addressObj: {
 				name: '',
+				province: '',
 				city: '请选择',
-				tel: '',
+				district: '',
+				phone: '',
 				address: '',
 				isDefault: false
 			},
-			index:-1,
+			index: -1,
 			isEdit: false
 		};
 	},
@@ -100,12 +156,25 @@ export default {
 			console.log(e);
 		},
 		onConfirm(e) {
-			console.log(e);
-			this.addressObj.city = e.label;
+			// console.log(e);
+			let arr = e.label.split('-');
+			this.addressObj.province = arr[0];
+			this.addressObj.city = arr[1];
+			this.addressObj.district = arr[2];
 		},
-		...mapActions(['ADDADDRESS','EDITADDRESS']),
-		RadioChange(){
-			this.addressObj.isDefault = !this.addressObj.isDefault;
+		...mapActions(['ADDADDRESS', 'EDITADDRESS']),
+		RadioChange() {
+			console.log(this.addressObj.isDefault);
+			this.addressObj.isDefault = this.addressObj.isDefault == '1'?'0':'1';
+		}
+	},
+	computed: {
+		selectedCity() {
+			if (this.addressObj.province) {
+				return `${this.addressObj.province} ${this.addressObj.city} ${this.addressObj.district}`;
+			} else {
+				return '请点击选择';
+			}
 		}
 	}
 };

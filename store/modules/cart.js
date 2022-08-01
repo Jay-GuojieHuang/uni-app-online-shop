@@ -1,90 +1,97 @@
 export default {
 	state: {
-		cartList: [{
-				id: 1,
-				name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-				color: '黑色',
-				imgUrl: '../../static/img/Children1.jpg',
-				price: '212',
-				count: 1,
-				checked: false
-			},
-			{
-				id: 2,
-				name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-				color: '黑色',
-				imgUrl: '../../static/img/Children2.jpg',
-				price: '212',
-				count: 1,
-				checked: true
-			},
-			{
-				id: 3,
-				name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-				color: '黑色',
-				imgUrl: '../../static/img/Children3.jpg',
-				price: '212',
-				count: 1,
-				checked: true
-			},
-			{
-				id: 4,
-				name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-				color: '黑色',
-				imgUrl: '../../static/img/Children2.jpg',
-				price: '212',
-				count: 1,
-				checked: true
-			},
-			{
-				id: 5,
-				name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-				color: '黑色',
-				imgUrl: '../../static/img/Children3.jpg',
-				price: '212',
-				count: 1,
-				checked: true
-			},
-			{
-				id: 6,
-				name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-				color: '黑色',
-				imgUrl: '../../static/img/Children2.jpg',
-				price: '212',
-				count: 1,
-				checked: true
-			},
-			{
-				id: 7,
-				name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-				color: '黑色',
-				imgUrl: '../../static/img/Children3.jpg',
-				price: '212',
-				count: 1,
-				checked: true
-			},
-			{
-				id: 8,
-				name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-				color: '黑色',
-				imgUrl: '../../static/img/Children2.jpg',
-				price: '212',
-				count: 1,
-				checked: true
-			},
-			{
-				id: 9,
-				name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
-				color: '黑色',
-				imgUrl: '../../static/img/Children3.jpg',
-				price: '212',
-				count: 1,
-				checked: true
-			}
+		cartList: [
+			// {
+			// 	id: 1,
+			// 	name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
+			// 	color: '黑色',
+			// 	imgUrl: '../../static/img/Children1.jpg',
+			// 	price: '212',
+			// 	count: 1,
+			// 	checked: false
+			// },
+			// {
+			// 	id: 2,
+			// 	name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
+			// 	color: '黑色',
+			// 	imgUrl: '../../static/img/Children2.jpg',
+			// 	price: '212',
+			// 	count: 1,
+			// 	checked: true
+			// },
+			// {
+			// 	id: 3,
+			// 	name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
+			// 	color: '黑色',
+			// 	imgUrl: '../../static/img/Children3.jpg',
+			// 	price: '212',
+			// 	count: 1,
+			// 	checked: true
+			// },
+			// {
+			// 	id: 4,
+			// 	name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
+			// 	color: '黑色',
+			// 	imgUrl: '../../static/img/Children2.jpg',
+			// 	price: '212',
+			// 	count: 1,
+			// 	checked: true
+			// },
+			// {
+			// 	id: 5,
+			// 	name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
+			// 	color: '黑色',
+			// 	imgUrl: '../../static/img/Children3.jpg',
+			// 	price: '212',
+			// 	count: 1,
+			// 	checked: true
+			// },
+			// {
+			// 	id: 6,
+			// 	name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
+			// 	color: '黑色',
+			// 	imgUrl: '../../static/img/Children2.jpg',
+			// 	price: '212',
+			// 	count: 1,
+			// 	checked: true
+			// },
+			// {
+			// 	id: 7,
+			// 	name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
+			// 	color: '黑色',
+			// 	imgUrl: '../../static/img/Children3.jpg',
+			// 	price: '212',
+			// 	count: 1,
+			// 	checked: true
+			// },
+			// {
+			// 	id: 8,
+			// 	name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
+			// 	color: '黑色',
+			// 	imgUrl: '../../static/img/Children2.jpg',
+			// 	price: '212',
+			// 	count: 1,
+			// 	checked: true
+			// },
+			// {
+			// 	id: 9,
+			// 	name: '大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了',
+			// 	color: '黑色',
+			// 	imgUrl: '../../static/img/Children3.jpg',
+			// 	price: '212',
+			// 	count: 1,
+			// 	checked: true
+			// }
 		],
 		checkedList: []
 	},
 	mutations: {
+		//从数据库中获取数据
+		initGetDataFromDB(state,list){
+			state.cartList = list;
+			
+		},
+		
 		INIT(state) {
 			state.checkedList = [];
 			state.cartList.forEach(item => {
@@ -204,6 +211,9 @@ export default {
 		}
 	},
 	actions: {
+		INITGETDATAFROMDB({commit},list){
+			commit('initGetDataFromDB',list)
+		},
 		initCheckedList({
 			commit
 		}) {
