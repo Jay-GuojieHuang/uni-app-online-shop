@@ -33,6 +33,81 @@ router.get('/', function(req, res, next) {
 });
 
 
+
+
+
+
+
+
+//加入购物车
+router.post('/api/addToCart', function(req, res, next) {
+	let token = req.headers.token;
+	let phone = jwt.decode(token);
+	let id = req.body.goods_id;
+	let count = req.body.count;
+		// console.log(`,${id},${count}`);
+		//查询当前用户id
+	connection.query(`select * from user where phone = ${phone.name}`, function(errors, results) {
+		//当前用户id
+		let uid = results[0].id;
+
+		
+		// 查询商品信息
+		connection.query(`select * from goods_search where id =${id}`, function(error, result,
+			fields) {
+          // console.log(result);
+		  let name  = result[0].name;
+		  let imgUrl = result[0].imgUrl;
+		  let price = result[0].pprice;
+          // console.log(`${name},${imgUrl},${price}`);
+			//查询用户购物车是否存在商品
+			connection.query(`select * from goods_cart where uid =${uid} and goods_id = ${id}`, function(err, ress,){
+				// console.log(r);
+				if(ress.length>0){
+					let currentCount = Number(count) + Number(ress[0].count) ;
+					let updateSql = `update goods_cart set count = replace(count,${ress[0].count},${currentCount}) where id = ${ress[0].id}`
+					// console.log(updateSql);
+					console.log('exist');
+					connection.query(updateSql,function(re,ee){
+						res.send({
+							data:{
+								success:true
+							}
+						})
+					})
+				}else{
+					//当前购物车没有此商品，需新增
+					let insertSql = `insert into goods_cart (uid,goods_id,name,imgUrl,price,count) values ('${uid}',${id},'${name}','${imgUrl}','${price}','${count}')`;
+					// console.log(insertSql);
+					connection.query(insertSql,function(r,e){
+						res.send({
+							data:{
+								success:true
+							}
+						})
+					})
+				}
+				
+				
+			})
+
+		});
+
+	})
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
 //修改当前用户的购物车数据库的商品数量
 router.post('/api/updateNumberCart', function(req, res, next) {
 	let token = req.headers.token;
@@ -46,27 +121,22 @@ router.post('/api/updateNumberCart', function(req, res, next) {
 			function(err, result) {
 				let goods_num = result[0].count;
 				let cid = result[0].id;
-				console.log(`update goods_cart set count = replace(count,${count},${goods_num}) where id = ${cid}`);
+				console.log(
+					`update goods_cart set count = replace(count,${count},${goods_num}) where id = ${cid}`
+				);
 				connection.query(
 					`update goods_cart set count = replace(count,${goods_num},${count}) where id = ${cid}`,
-					function(e,r) {
+					function(e, r) {
 						// console.log(r);
 						res.send({
-							data:{
+							data: {
 								success: true,
-								
+
 							}
 						})
 					})
-
-
-
-
-
 			})
 	})
-
-
 })
 
 
@@ -255,13 +325,13 @@ router.post('/api/loginThirdParty', function(req, res, next) {
 
 
 
-router.post('/api/test', function(req, res, next) {
-	res.send({
-		data: {
-			a: 1
-		}
-	})
-})
+// router.post('/api/test', function(req, res, next) {
+// 	res.send({
+// 		data: {
+// 			a: 1
+// 		}
+// 	})
+// })
 
 
 //注册==》增加一条数据

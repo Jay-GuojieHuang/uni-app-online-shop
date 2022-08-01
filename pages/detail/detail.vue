@@ -211,21 +211,27 @@ export default {
 			})
 		},
 		addToCart(){
-				console.log('test');
+				// console.log(this.goodsInfo);
+				
 				$http.request({
 					header: {
-						'Content-Type': 'application/x-www-form-urlencoded',
 						'token': true
 					},
-					url:'/test',
+					url:'/addToCart',
 					method:'POST',
-					// data:{
-					// 	userName : this.phone,
-					// 	code : this.userInputCode
-					// },
+					data:{
+						goods_id:this.goodsInfo.id,
+						count: this.count
+					},
 					
 				}).then(res=>{
-					console.log(res);
+					// this.goodsInfo = res[0]
+					if(res.success){
+						uni.showToast({
+							title: '操作成功',
+							icon: 'success'
+						})
+					}
 				}).catch(()=>{
 					uni.showToast({
 						title: '请求失败',
