@@ -33,7 +33,143 @@ router.get('/', function(req, res, next) {
 });
 
 
+//修改订单状态
+router.post(`/api/submitOrder`, function(req, res, next) {
+	let token = req.headers.token;
+	let phone = jwt.decode(token);
+	//订单号
+	let orderId = req.body.orderId;
+	// 选中购物车里的商品
+	let checkedItemList = req.body.checkedItemList;
 
+	//获取当前用户
+	connection.query(`select * from user where phone =${phone.name}`, function(error, results) {
+		let userid = results[0].id;
+		connection.query(`select * from store_order where uid = ${userid} and order_id= ${orderId}`,
+			function(err, result) {
+				//订单的ID 不是订单号
+				let order_id = result[0].id
+
+				connection.query(
+					`update store_order set order_status = replace(order_status, 1, 2) where id = ${order_id}`,
+					function(e, r) {
+						checkedItemList.forEach(id => {
+							connection.query(`delete from goods_cart where id =${id}`,
+								function(ee, rr) {
+									res.send({
+										data: {
+											success: true
+										}
+									})
+								})
+						})
+
+
+
+
+
+
+					})
+			})
+
+
+	})
+
+
+})
+
+
+
+
+
+
+//生成订单
+router.post(`/api/addOrder`, function(req, res, next) {
+	let token = req.headers.token;
+	let phone = jwt.decode(token);
+	//前端给后端传递的数据 -- 选中的购物车商品
+	let selectedOrderitemArr = req.body.orderItemList;
+	//生成订单号
+
+	function setTimeDateFmt(s) { // 个位数补齐十位数
+		return s < 10 ? '0' + s : s;
+	}
+
+	function createordernum() {
+		const now = new Date()
+		let month = now.getMonth() + 1
+		let day = now.getDate()
+		let hour = now.getHours()
+		let minutes = now.getMinutes()
+		let seconds = now.getSeconds()
+		month = setTimeDateFmt(month)
+		day = setTimeDateFmt(day)
+		hour = setTimeDateFmt(hour)
+		minutes = setTimeDateFmt(minutes)
+		seconds = setTimeDateFmt(seconds)
+		let orderCode = now.getFullYear().toString() + month.toString() + day + hour + minutes + seconds + (Math
+			.round(Math.random() * 1000000)).toString();
+		return orderCode;
+		//基于年月日时分秒+随机数生成订单编号
+	}
+	//订单号
+	let orderId = createordernum();
+	//商品名称
+	let goodsName = [];
+	//商品总价
+	let goodsPrice = 0;
+	//商品总数量
+	let goodsNum = 0;
+
+	selectedOrderitemArr.forEach(item => {
+		goodsName.push(item.name);
+		goodsPrice += item.price * item.count;
+		goodsNum += parseInt(item.count);
+	})
+
+
+	//获取当前用户
+	connection.query(`select * from user where phone =${phone.name}`, function(error, result) {
+		let userid = result[0].id;
+		// console.log(`insert into store_order (uid,order_id,goods_name,goods_price,goods_num,goods_status) values ('${userid}','${orderId}','${goodsName}','${goodsPrice}','${goodsNum}','1')`);
+		connection.query(
+			`insert into store_order (uid,order_id,goods_name,goods_price,goods_num,order_status) values ('${userid}','${orderId}','${goodsName}','${goodsPrice}','${goodsNum}','1')`,
+			function(err, results) {
+				connection.query(
+					`select * from store_order where uid = ${userid} and order_id = ${orderId}`,
+					function(e, r) {
+						res.send({
+							data: {
+								success: true,
+								data: r
+							}
+						})
+					})
+
+
+
+			})
+	})
+
+
+})
+
+
+//删除购物车数据
+router.post('/api/deleteCart', function(req, res, next) {
+	let goods_id = req.body.goods_id
+	console.log(req.body);
+	for (var i = 0; i < goods_id.length; i++) {
+		console.log(`delete from goods_cart where id = ${goods_id[i]}`);
+		connection.query(`delete from goods_cart where id = ${goods_id[i]}`, function(errors, results) {
+			res.send({
+				data: {
+					success: true
+				}
+			})
+		})
+	}
+})
 
 
 
@@ -45,51 +181,54 @@ router.post('/api/addToCart', function(req, res, next) {
 	let phone = jwt.decode(token);
 	let id = req.body.goods_id;
 	let count = req.body.count;
-		// console.log(`,${id},${count}`);
-		//查询当前用户id
+	// console.log(`,${id},${count}`);
+	//查询当前用户id
 	connection.query(`select * from user where phone = ${phone.name}`, function(errors, results) {
 		//当前用户id
 		let uid = results[0].id;
 
-		
+
 		// 查询商品信息
 		connection.query(`select * from goods_search where id =${id}`, function(error, result,
 			fields) {
-          // console.log(result);
-		  let name  = result[0].name;
-		  let imgUrl = result[0].imgUrl;
-		  let price = result[0].pprice;
-          // console.log(`${name},${imgUrl},${price}`);
+			// console.log(result);
+			let name = result[0].name;
+			let imgUrl = result[0].imgUrl;
+			let price = result[0].pprice;
+			// console.log(`${name},${imgUrl},${price}`);
 			//查询用户购物车是否存在商品
-			connection.query(`select * from goods_cart where uid =${uid} and goods_id = ${id}`, function(err, ress,){
-				// console.log(r);
-				if(ress.length>0){
-					let currentCount = Number(count) + Number(ress[0].count) ;
-					let updateSql = `update goods_cart set count = replace(count,${ress[0].count},${currentCount}) where id = ${ress[0].id}`
-					// console.log(updateSql);
-					console.log('exist');
-					connection.query(updateSql,function(re,ee){
-						res.send({
-							data:{
-								success:true
-							}
+			connection.query(`select * from goods_cart where uid =${uid} and goods_id = ${id}`,
+				function(err, ress, ) {
+					// console.log(r);
+					if (ress.length > 0) {
+						let currentCount = Number(count) + Number(ress[0].count);
+						let updateSql =
+							`update goods_cart set count = replace(count,${ress[0].count},${currentCount}) where id = ${ress[0].id}`
+						// console.log(updateSql);
+						console.log('exist');
+						connection.query(updateSql, function(re, ee) {
+							res.send({
+								data: {
+									success: true
+								}
+							})
 						})
-					})
-				}else{
-					//当前购物车没有此商品，需新增
-					let insertSql = `insert into goods_cart (uid,goods_id,name,imgUrl,price,count) values ('${uid}',${id},'${name}','${imgUrl}','${price}','${count}')`;
-					// console.log(insertSql);
-					connection.query(insertSql,function(r,e){
-						res.send({
-							data:{
-								success:true
-							}
+					} else {
+						//当前购物车没有此商品，需新增
+						let insertSql =
+							`insert into goods_cart (uid,goods_id,name,imgUrl,price,count) values ('${uid}',${id},'${name}','${imgUrl}','${price}','${count}')`;
+						// console.log(insertSql);
+						connection.query(insertSql, function(r, e) {
+							res.send({
+								data: {
+									success: true
+								}
+							})
 						})
-					})
-				}
-				
-				
-			})
+					}
+
+
+				})
 
 		});
 

@@ -9106,7 +9106,7 @@ var render = function() {
                   _c(
                     "uni-view",
                     { staticClass: _vm._$g(13, "sc"), attrs: { _i: 13 } },
-                    [_vm._v("小可爱商店")]
+                    [_vm._v("小可爱商店 " + _vm._$g(13, "t0-0"))]
                   )
                 ],
                 1
@@ -9487,77 +9487,89 @@ var render = function() {
         { staticClass: _vm._$g(2, "sc"), attrs: { _i: 2 } },
         [
           _c(
-            "uni-view",
-            { staticClass: _vm._$g(3, "sc"), attrs: { _i: 3 } },
+            "v-uni-radio-group",
+            { attrs: { name: "", _i: 3 } },
             [
-              _c("v-uni-image", {
-                staticClass: _vm._$g(4, "sc"),
-                attrs: { src: _vm._$g(4, "a-src"), mode: "", _i: 4 }
-              }),
               _c(
                 "uni-view",
-                { staticClass: _vm._$g(5, "sc"), attrs: { _i: 5 } },
+                { staticClass: _vm._$g(4, "sc"), attrs: { _i: 4 } },
                 [
+                  _c("v-uni-image", {
+                    staticClass: _vm._$g(5, "sc"),
+                    attrs: { src: _vm._$g(5, "a-src"), mode: "", _i: 5 }
+                  }),
                   _c(
                     "uni-view",
                     { staticClass: _vm._$g(6, "sc"), attrs: { _i: 6 } },
-                    [_vm._v("支付宝")]
+                    [
+                      _c(
+                        "uni-view",
+                        { staticClass: _vm._$g(7, "sc"), attrs: { _i: 7 } },
+                        [_vm._v("支付宝")]
+                      ),
+                      _c(
+                        "uni-view",
+                        { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
+                        [_vm._v("推荐支付宝用户使用")]
+                      )
+                    ],
+                    1
                   ),
                   _c(
-                    "uni-view",
-                    { staticClass: _vm._$g(7, "sc"), attrs: { _i: 7 } },
-                    [_vm._v("推荐支付宝用户使用")]
+                    "v-uni-label",
+                    { staticClass: _vm._$g(9, "sc"), attrs: { _i: 9 } },
+                    [
+                      _c("v-uni-radio", {
+                        attrs: { value: "", color: "#42B7FB", _i: 10 }
+                      }),
+                      _c("v-uni-text", { attrs: { _i: 11 } })
+                    ],
+                    1
                   )
                 ],
                 1
               ),
               _c(
-                "v-uni-label",
-                { staticClass: _vm._$g(8, "sc"), attrs: { _i: 8 } },
-                [
-                  _c("v-uni-radio", {
-                    attrs: { value: "", color: "#42B7FB", _i: 9 }
-                  }),
-                  _c("v-uni-text", { attrs: { _i: 10 } })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _c(
-            "uni-view",
-            { staticClass: _vm._$g(11, "sc"), attrs: { _i: 11 } },
-            [
-              _c("v-uni-image", {
-                staticClass: _vm._$g(12, "sc"),
-                attrs: { src: _vm._$g(12, "a-src"), mode: "", _i: 12 }
-              }),
-              _c(
                 "uni-view",
-                { staticClass: _vm._$g(13, "sc"), attrs: { _i: 13 } },
+                { staticClass: _vm._$g(12, "sc"), attrs: { _i: 12 } },
                 [
+                  _c("v-uni-image", {
+                    staticClass: _vm._$g(13, "sc"),
+                    attrs: { src: _vm._$g(13, "a-src"), mode: "", _i: 13 }
+                  }),
                   _c(
                     "uni-view",
                     { staticClass: _vm._$g(14, "sc"), attrs: { _i: 14 } },
-                    [_vm._v("微信支付")]
+                    [
+                      _c(
+                        "uni-view",
+                        { staticClass: _vm._$g(15, "sc"), attrs: { _i: 15 } },
+                        [_vm._v("微信支付")]
+                      ),
+                      _c(
+                        "uni-view",
+                        { staticClass: _vm._$g(16, "sc"), attrs: { _i: 16 } },
+                        [_vm._v("推荐有微信账号的用户使用")]
+                      )
+                    ],
+                    1
                   ),
                   _c(
-                    "uni-view",
-                    { staticClass: _vm._$g(15, "sc"), attrs: { _i: 15 } },
-                    [_vm._v("推荐有微信账号的用户使用")]
+                    "v-uni-label",
+                    { staticClass: _vm._$g(17, "sc"), attrs: { _i: 17 } },
+                    [
+                      _c("v-uni-radio", {
+                        attrs: {
+                          name: "123",
+                          value: "",
+                          color: "#42B7FB",
+                          _i: 18
+                        }
+                      }),
+                      _c("v-uni-text", { attrs: { _i: 19 } })
+                    ],
+                    1
                   )
-                ],
-                1
-              ),
-              _c(
-                "v-uni-label",
-                { staticClass: _vm._$g(16, "sc"), attrs: { _i: 16 } },
-                [
-                  _c("v-uni-radio", {
-                    attrs: { name: "123", value: "", color: "#42B7FB", _i: 17 }
-                  }),
-                  _c("v-uni-text", { attrs: { _i: 18 } })
                 ],
                 1
               )
@@ -9569,22 +9581,24 @@ var render = function() {
       ),
       _c(
         "uni-view",
-        { staticClass: _vm._$g(19, "sc"), attrs: { _i: 19 } },
+        { staticClass: _vm._$g(20, "sc"), attrs: { _i: 20 } },
         [
           _c(
             "uni-view",
-            { staticClass: _vm._$g(20, "sc"), attrs: { _i: 20 } },
+            { staticClass: _vm._$g(21, "sc"), attrs: { _i: 21 } },
             [
-              _c("v-uni-text", { attrs: { _i: 21 } }, [_vm._v("合计：")]),
-              _c("v-uni-text", { attrs: { _i: 22 } }, [_vm._v("$1799.00")])
+              _c("v-uni-text", { attrs: { _i: 22 } }, [_vm._v("合计：")]),
+              _c("v-uni-text", { attrs: { _i: 23 } }, [
+                _vm._v("$ " + _vm._$g(23, "t0-0"))
+              ])
             ],
             1
           ),
           _c(
             "uni-view",
             {
-              staticClass: _vm._$g(23, "sc"),
-              attrs: { _i: 23 },
+              staticClass: _vm._$g(24, "sc"),
+              attrs: { _i: 24 },
               on: {
                 click: function($event) {
                   return _vm.$handleViewEvent($event)
@@ -9689,7 +9703,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../../../Applications/HBuilderX.app/Contents/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 15);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.payment-tool-list[data-v-08d42738] {\n\t/* \t display: flex;\n\t flex-direction: column;\n\t justify-content: space-between;\n\t align-items: stretch; */\n}\n.payment-option[data-v-08d42738] {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\tpadding: 20rpx;\n\tborder-bottom: 4rpx solid #f7f7f7;\n}\n.option-img[data-v-08d42738] {\n\twidth: 150rpx;\n\theight: 150rpx;\n}\n.option-detail[data-v-08d42738] {\n\t/* flex: 1; */\n\n\tdisplay: flex;\n\tflex-direction: column;\n\tjustify-content: center;\n\talign-items: flex-start;\n\ttext-align: left;\n\t/* background-color: red; */\n\twidth: 400rpx;\n\t/* height: 200rpx; */\n}\n.pay-footer[data-v-08d42738] {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\theight: 125rpx;\n\tposition: fixed;\n\tleft: 0;\n\tbottom: 0;\n\twidth: 100%;\n\t/* padding: 0 20rpx; */\n}\n.submit-btn[data-v-08d42738] {\n\twidth: 300rpx;\n\theight: 125rpx;\n\tline-height: 125rpx;\n\ttext-align: center;\n\tbackground-color: #42B7FB;\n\tcolor: #fff;\n}\n.total[data-v-08d42738] {\n\tbackground-color: #000000;\n\tcolor: #fff;\n\theight: 125rpx;\n\tline-height: 125rpx;\n\twidth: 100%;\n\tpadding-left: 20rpx;\n}\n\n", ""]);
+exports.push([module.i, "\n.payment-tool-list[data-v-08d42738] {\n\t/* \t display: flex;\n\t flex-direction: column;\n\t justify-content: space-between;\n\t align-items: stretch; */\n}\n.payment-option[data-v-08d42738] {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\tpadding: 20rpx;\n\tborder-bottom: 4rpx solid #f7f7f7;\n}\n.option-img[data-v-08d42738] {\n\twidth: 150rpx;\n\theight: 150rpx;\n}\n.option-detail[data-v-08d42738] {\n\t/* flex: 1; */\n\n\tdisplay: flex;\n\tflex-direction: column;\n\tjustify-content: center;\n\talign-items: flex-start;\n\ttext-align: left;\n\t/* background-color: red; */\n\twidth: 400rpx;\n\t/* height: 200rpx; */\n}\n.pay-footer[data-v-08d42738] {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\theight: 125rpx;\n\tposition: fixed;\n\tleft: 0;\n\tbottom: 0;\n\twidth: 100%;\n\t/* padding: 0 20rpx; */\n}\n.submit-btn[data-v-08d42738] {\n\twidth: 300rpx;\n\theight: 125rpx;\n\tline-height: 125rpx;\n\ttext-align: center;\n\tbackground-color: #42b7fb;\n\tcolor: #fff;\n}\n.total[data-v-08d42738] {\n\tbackground-color: #000000;\n\tcolor: #fff;\n\theight: 125rpx;\n\tline-height: 125rpx;\n\twidth: 100%;\n\tpadding-left: 20rpx;\n}\n", ""]);
 // Exports
 module.exports = exports;
 

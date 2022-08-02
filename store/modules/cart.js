@@ -1,3 +1,4 @@
+import $http from '@/common/api/request.js'
 export default {
 	state: {
 		cartList: [
@@ -87,11 +88,11 @@ export default {
 	},
 	mutations: {
 		//从数据库中获取数据
-		initGetDataFromDB(state,list){
+		initGetDataFromDB(state, list) {
 			state.cartList = list;
 			state.checkedList = []
 		},
-		
+
 		INIT(state) {
 			state.checkedList = [];
 			state.cartList.forEach(item => {
@@ -173,7 +174,7 @@ export default {
 			let exit = false;
 			state.cartList.forEach(item => {
 				if (item.id === goodsInfo.id) {
-					item.count =  Number(item.count) + Number(goodsInfo.count) ;
+					item.count = Number(item.count) + Number(goodsInfo.count);
 					exit = true;
 				}
 
@@ -211,12 +212,15 @@ export default {
 		}
 	},
 	actions: {
-		INITGETDATAFROMDB({commit},list){
-			commit('initGetDataFromDB',list)
+		INITGETDATAFROMDB({
+			commit
+		}, list) {
+			commit('initGetDataFromDB', list)
 		},
 		initCheckedList({
 			commit
 		}) {
+			console.log('init');
 			commit("INIT")
 		},
 		CHECKEDALL({
@@ -232,13 +236,60 @@ export default {
 			commit('changeSelect', id);
 		},
 		DELGOODS({
-			commit
+			commit,
+			state
 		}) {
-			commit("delGoods");
-			uni.showToast({
-				title: '删除成功',
-				icon: "none"
+			// console.log(state.checkedList);
+			uni.showModal({
+				content: '确定删除吗？',
+				success: (res) => {
+					
+					if(res.confirm){
+							$http.request({
+						header: {
+							token: true
+						},
+						url: '/deleteCart',
+						method: 'post',
+						data: {
+							goods_id: state.checkedList
+						}
+					}).then(result => {
+
+						if(result.success){
+								commit("delGoods");
+						uni.showToast({
+							title: '删除成功',
+							icon: "none"
+						})
+						}else{
+						uni.showToast({
+							title: '操作失败',
+							icon: "error"
+						})	
+						return;
+						}
+
+					
+
+					}).catch(() => {
+						uni.showToast({
+							title: '请求失败',
+							icon: 'error'
+						})
+						return
+					})
+					}else if(res.cancel){
+						return
+					}
+				
+				},
+				
+
 			})
+
+
+
 		},
 		ADDTOCART({
 			commit

@@ -1,5 +1,5 @@
 <template>
-	<view class="wrap" :style="`height: ${viewHomeHeight+50}px;`">
+	<view class="wrap" :style="`height: ${viewHomeHeight + 50}px;`">
 		<view class="confirm_order">
 			<Lines></Lines>
 			<!-- 收件人和地址栏 -->
@@ -9,7 +9,7 @@
 						<view class="name">收件人：{{ address.name }}</view>
 						<view class="phone">{{ address.phone }}</view>
 					</view>
-					<view class="address">{{address.province}}{{ address.city }}{{address.district}}{{ address.address }}</view>
+					<view class="address">{{ address.province }}{{ address.city }}{{ address.district }}{{ address.address }}</view>
 				</view>
 				<view v-else class="address-content f-color">请点击设置默认地址</view>
 				<Lines></Lines>
@@ -18,7 +18,7 @@
 			<!-- 商品 -->
 			<view class="order-item">
 				<view class="item-header f-color">
-					<view class="shop-name">小可爱商店</view>
+					<view class="shop-name">小可爱商店 {{ orderNumber }}</view>
 					<!-- <view class="item-status f-active-color">{{ order.status }}</view> -->
 				</view>
 				<view class="item-content" v-for="(good, idx) in goodsList" :key="idx">
@@ -54,7 +54,7 @@
 				<view class="goods-total">
 					<text>共{{ goodsList.length }}件商品</text>
 					<text>小计：</text>
-					<text class="f-active-color">$ {{totalCount.pprice}}</text>
+					<text class="f-active-color">$ {{ totalCount.pprice }}</text>
 				</view>
 			</view>
 		</view>
@@ -62,7 +62,7 @@
 		<view class="confirm-order-footer">
 			<view class="total-amount">
 				<text>合计：</text>
-				<text class="f-active-color">$ {{totalCount.pprice}}</text>
+				<text class="f-active-color">$ {{ totalCount.pprice }}</text>
 			</view>
 			<view class="submit-btn" @tap="goPayment">提交订单</view>
 		</view>
@@ -70,8 +70,8 @@
 </template>
 
 <script>
-import $http from '@/common/api/request.js'
-import { mapGetters, mapState,mapMutations} from 'vuex';
+import $http from '@/common/api/request.js';
+import { mapGetters, mapState, mapMutations } from 'vuex';
 import Lines from '@/components/common/Line.vue';
 export default {
 	components: {
@@ -90,31 +90,30 @@ export default {
 			}
 		});
 	},
-	onLoad(e){
-		this.__initAddress()
-		
-		 this.itemList = JSON.parse(e.detail)
+	onLoad(e) {
+		this.__initAddress();
+
+		this.itemList = JSON.parse(e.detail);
 		// console.log(this.cartList,e.detail);
-		
-		
-		if(this.defaultAddress.length>0){
-			this.address = this.defaultAddress[0]
+
+		if (this.defaultAddress.length > 0) {
+			this.address = this.defaultAddress[0];
 		}
-		
-		uni.$on("selectAddress",res=>{
+
+		uni.$on('selectAddress', res => {
 			this.address = res;
-		})
+		});
 	},
-	onUnload(){
-		uni.$off("selectAddress",()=>{
+	onUnload() {
+		uni.$off('selectAddress', () => {
 			console.log(事件已移除);
-		})
+		});
 	},
 	data() {
 		return {
-			itemList:[],
+			itemList: [],
 			viewHomeHeight: 0,
-			address:"",
+			address: '',
 			tabList: [
 				{
 					name: '全部',
@@ -182,55 +181,89 @@ export default {
 	},
 	methods: {
 		...mapMutations(['__init']),
-		__initAddress(){
-			$http.request({
-				header:{
-					token: true
-				},
-				url:'/getAddress',
-				method:'post',
-			}).then(res=>{
-			
-				console.log(res);
-				this.__init(res)
-				
-			}).catch(()=>{
-				uni.showToast({
-					title: '请求失败',
-					icon: 'error'
+		__initAddress() {
+			$http
+				.request({
+					header: {
+						token: true
+					},
+					url: '/getAddress',
+					method: 'post'
 				})
-				return
-			})
+				.then(res => {
+					console.log(res);
+					this.__init(res);
+				})
+				.catch(() => {
+					uni.showToast({
+						title: '请求失败',
+						icon: 'error'
+					});
+					return;
+				});
 		},
-		goAddressList(){
+		goAddressList() {
 			uni.navigateTo({
-				url:'../user-address/user-address?type=selectAddress'
-			})
+				url: '../user-address/user-address?type=selectAddress'
+			});
 		},
-		goPayment(){
-			if(this.address==''){
+		goPayment() {
+			if (this.address == '') {
 				return uni.showToast({
-					title:'请选择收货地址',
-					icon:'none'
-				})
-			}else{
-				uni.navigateTo({
-				url:"/pages/payment/payment"
-			})
+					title: '请选择收货地址',
+					icon: 'none'
+				});
+			} else {
+				//提交订单
+				// console.log(`${this.orderNumber},${this.checkedItemList}`);
+				$http
+					.request({
+						header: {
+							token: true
+						},
+						url: '/submitOrder',
+						method: 'post',
+						data: {
+							orderId: this.orderNumber,
+							checkedItemList: this.checkedItemList
+						}
+					})
+					.then(res => {
+						console.log(res);
+						if (res.success) {
+							uni.navigateTo({
+								url: `/pages/payment/payment?detail=${JSON.stringify({ price: this.totalCount.pprice })}`
+							});
+						}
+					})
+					.catch(() => {
+						uni.showToast({
+							title: '请求失败',
+							icon: 'error'
+						});
+						return;
+					});
+
+				// 	uni.navigateTo({
+				// 	url:`/pages/payment/payment?detail=${
+				// 		JSON.stringify({price: this.totalCount.pprice})
+
+				// 	}`
+				// })
 			}
-			
-			
 		}
 	},
 	computed: {
 		...mapState({
-			cartList: state=>state.cart.cartList
+			cartList: state => state.cart.cartList,
+			orderNumber: state => state.order.orderNumber,
+			checkedItemList: state => state.cart.checkedList
 		}),
-		...mapGetters(['defaultAddress','totalCount']),
-		goodsList(){
-			return this.itemList.map(id=>{
-				return this.cartList.find(i=>i.id==id);
-			})
+		...mapGetters(['defaultAddress', 'totalCount']),
+		goodsList() {
+			return this.itemList.map(id => {
+				return this.cartList.find(i => i.id == id);
+			});
 		}
 	}
 };

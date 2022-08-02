@@ -2,18 +2,19 @@
 	<view>
 		<uniNaviBar title="支付方式" leftText="关闭" statusBar="true" @clickLeft="goBack"></uniNaviBar>
 		<view class="payment-tool-list">
-			<view class="payment-option">
-				<image class="option-img" src="../../static/img/zfb.png" mode=""></image>
-				<view class="option-detail">
-					<view class="option-name">支付宝</view>
-					<view class="option-description">推荐支付宝用户使用</view>
+			<radio-group name="">
+				<view class="payment-option">
+					<image class="option-img" src="../../static/img/zfb.png" mode=""></image>
+					<view class="option-detail">
+						<view class="option-name">支付宝</view>
+						<view class="option-description">推荐支付宝用户使用</view>
+					</view>
+					<label class="radio">
+						<radio value="" color="#42B7FB" />
+						<text></text>
+					</label>
 				</view>
-				<label class="radio">
-					<radio value="" color="#42B7FB" />
-					<text></text>
-				</label>
-			</view>
-		
+
 				<view class="payment-option">
 					<image class="option-img" src="../../static/img/wxf.png" mode=""></image>
 					<view class="option-detail">
@@ -25,17 +26,16 @@
 						<text></text>
 					</label>
 				</view>
-		
+			</radio-group>
 		</view>
-		
+
 		<!-- 支付 -->
 		<view class="pay-footer">
 			<view class="total">
-				<text>合计：</text><text>$1799.00</text>
+				<text>合计：</text>
+				<text>$ {{detail.price}}</text>
 			</view>
-			<view class="submit-btn" @tap="goPayment">
-				去支付
-			</view>
+			<view class="submit-btn" @tap="goPayment">去支付</view>
 		</view>
 	</view>
 </template>
@@ -46,8 +46,15 @@ export default {
 	components: {
 		uniNaviBar
 	},
+	onLoad(e){
+		// console.log(JSON.parse(e.detail));
+		
+		this.detail =JSON.parse(e.detail)
+	},
 	data() {
-		return {};
+		return {
+			detail:{}
+		};
 	},
 	methods: {
 		goBack() {
@@ -55,10 +62,10 @@ export default {
 				delta: 1
 			});
 		},
-		goPayment(){
+		goPayment() {
 			uni.navigateTo({
-				url:'../pay-success/pay-success'
-			})
+				url: '../pay-success/pay-success'
+			});
 		}
 	}
 };
@@ -114,7 +121,7 @@ export default {
 	height: 125rpx;
 	line-height: 125rpx;
 	text-align: center;
-	background-color: #42B7FB;
+	background-color: #42b7fb;
 	color: #fff;
 }
 
@@ -126,5 +133,4 @@ export default {
 	width: 100%;
 	padding-left: 20rpx;
 }
-
 </style>

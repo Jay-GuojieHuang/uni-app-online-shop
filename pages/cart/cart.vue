@@ -68,7 +68,7 @@
 import $http from '@/common/api/request.js'
 import TabBar from '@/components/common/Tabbar.vue'
 import uniNumberBox from '@/components/uni/uni-number-box/uni-number-box.vue';
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex';
 import uniNaviBar from '@/components/uni/uni-nav-bar/uni-nav-bar.vue';
 export default {
 	components: {
@@ -109,6 +109,7 @@ export default {
 	},
 	methods: {
 		...mapActions(['initCheckedList', 'CHECKEDALL', 'CHANGESELECT','DELGOODS',"INITGETDATAFROMDB"]),
+		...mapMutations(['initOrder']),
 		changeNum(e, index, item) {
 			console.log(index);
 			$http.request({
@@ -142,9 +143,48 @@ export default {
 			//跳转付款前先检查是否选中商品
 			if(this.checkedList.length>0){
 				// console.log(this.checkedList);
-				uni.navigateTo({
-					url:`/pages/confirm-order/confirm-order?detail=${JSON.stringify(this.checkedList)}`
+				let orderItemList =[];
+				this.cartList.forEach(item=>{
+					this.checkedList.filter(i=>{
+						if(i === item.id){
+							orderItemList.push(item)
+						}
+					})
 				})
+				// console.log(newList);
+				$http.request({
+						header: {
+							token: true
+						},
+						url: '/addOrder',
+						method: 'post',
+						data:{
+							orderItemList
+						}
+					})
+					.then(res => {
+						this.initOrder(res.data[0].order_id)
+						if(res.success){
+							uni.navigateTo({
+								url:`/pages/confirm-order/confirm-order?detail=${JSON.stringify(this.checkedList)}`
+							})
+						}
+						
+						// console.log(res.data[0]);
+				
+			
+					})
+					.catch(() => {
+						uni.showToast({
+							title: '请求失败',
+							icon: 'error'
+						});
+						return;
+					});
+				
+				
+				
+				
 				
 			}else{
 				return uni.showToast({
